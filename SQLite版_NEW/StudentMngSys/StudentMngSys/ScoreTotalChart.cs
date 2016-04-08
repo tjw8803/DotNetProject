@@ -1,0 +1,474 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using tianjw.Common;
+using TJWCommon;
+using TJWUIData;
+
+namespace TJWForms
+{
+    public partial class ScoreTotalChart : Form
+    {
+        private DataAccess _dataAccess;
+        private bool _formLoaded = false;
+        private List<DataWork> _scoreInfoList = null;
+        private List<DataWork> _stuScoreInfoList = null;
+        private DataWork _param;
+        private List<DataWork> _examTypeInfoList;
+
+        public ScoreTotalChart()
+        {
+            InitializeComponent();
+
+            _dataAccess = new DataAccess();
+        }
+
+        private void ScoreTotalChart_Load(object sender, EventArgs e)
+        {
+            InitScreen();
+
+            _formLoaded = true;
+        }
+
+        private void InitScreen()
+        {
+            this.comboBox_TotalType.SelectedIndex = 0;
+
+            // 班级取得
+            this.comboBox_Class.Items.Clear();
+            string errMsg = string.Empty;
+            DataWork param = new DataWork();
+            List<DataWork> classInfoList = null;
+            int status = _dataAccess.GetClassInfo(param, out classInfoList, out errMsg);
+
+            if (status == 0 && classInfoList.Count > 0)
+            {
+                foreach (DataWork classInfo in classInfoList)
+                {
+                    this.comboBox_Class.Items.Add(new ListItem(classInfo.ClassID, classInfo.ClassName));
+                }
+                this.comboBox_Class.SelectedIndex = 0;
+            }
+            else
+            {
+                MessageBox.Show(this, "班级没有设置，请先设置班级！", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                this.Close();
+                return;
+            }
+
+            // 课程取得
+            errMsg = string.Empty;
+            param = new DataWork();
+            List<DataWork> courseInfoList = null;
+            status = _dataAccess.GetCourseInfo(param, out courseInfoList, out errMsg);
+
+            if (status == 0 && courseInfoList.Count > 0)
+            {
+                foreach (DataWork courseInfo in courseInfoList)
+                {
+                    this.comboBox_CourseName.Items.Add(new ListItem(courseInfo.CourseID.ToString(), courseInfo.CourseName));
+                }
+            }
+
+            // 类型取得
+            Dictionary<string, string> examDic = DataWork.GetExamType();
+            if (examDic.Count > 0)
+            {
+                foreach (KeyValuePair<string, string> pair in examDic)
+                {
+                    int key = Int32.Parse(pair.Key);
+                    this.comboBox_Type.Items.Add(new ListItem(key.ToString(), pair.Value));
+                }
+                this.comboBox_Type.SelectedIndex = 1;
+            }
+
+            this.comboBox_Class.Focus();
+        }
+
+        private void comboBox_Type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.comboBox_Course.Enabled = true;
+            switch (this.comboBox_Type.SelectedIndex)
+            {
+                case 0:
+                    {
+                        this.panel_Group.Top = this.panel_Course.Top;
+                        this.panel_Course.Visible = false;
+
+                        // 章节取得
+                        GetCourseInfo();
+                    }
+                    break;
+                case 1:
+                    {
+                        this.panel_Group.Top = 272;
+                        this.panel_Course.Visible = true;
+
+                        if (this.comboBox_CourseName.Items.Count > 0)
+                        {
+                            this.comboBox_CourseName.SelectedIndex = 0;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private void comboBox_CourseName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // 章节取得
+            GetCourseInfo();
+        }
+
+        private void GetCourseInfo()
+        {
+            this.comboBox_Course.Items.Clear();
+            string errMsg = string.Empty;
+            DataWork param = new DataWork();
+            param.ExamTypeID = this.comboBox_Type.SelectedIndex;
+            if (this.comboBox_Type.SelectedIndex == 1)
+            {
+                param.CourseNewID = this.comboBox_CourseName.SelectedIndex + 1;
+            }
+            _examTypeInfoList = null;
+            int status = _dataAccess.GetExamTypeInfo(param, out _examTypeInfoList, out errMsg);
+
+            if (status == 0 && _examTypeInfoList.Count > 0)
+            {
+                foreach (DataWork examTypeInfo in _examTypeInfoList)
+                {
+                    this.comboBox_Course.Items.Add(new ListItem(examTypeInfo.CourseID.ToString(), examTypeInfo.CourseName));
+                }
+            }
+            if (this.comboBox_Course.Items.Count > 0)
+            {
+                this.comboBox_Course.SelectedIndex = 0;
+            }
+            else
+            {
+                Dictionary<string, string> examDic = DataWork.GetExamType();
+                string tips = "章节没有设置，请先设置章节！";
+                string dicValue = examDic[this.comboBox_Type.SelectedIndex.ToString()];
+                string message = dicValue + tips;
+                MessageBox.Show(this, message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                if (!_formLoaded)
+                {
+                    this.Close();
+                }
+                else
+                {
+                    this.comboBox_Type.SelectedIndex = 1;
+                }
+            }
+        }
+
+        private int Search()
+        {
+            int status = -1;
+            string message = string.Empty;
+
+            // 平均分，分数段人数查询
+
+            // 条件
+            _param = new DataWork();
+            // 班级
+            ListItem liClass = (ListItem)this.comboBox_Class.SelectedItem;
+            _param.ClassID = liClass.Key;
+            _param.ClassName = liClass.Value;
+            // 类型
+            _param.ExamTypeID = this.comboBox_Type.SelectedIndex;
+            // 课程
+            _param.CourseNewID = this.comboBox_CourseName.SelectedIndex + 1;
+            _param.CourseNewName = this.comboBox_CourseName.SelectedItem.ToString();
+            if (this.comboBox_TotalType.SelectedIndex == 0)
+            {
+                // 章节
+                ListItem liCourse = (ListItem)this.comboBox_Course.SelectedItem;
+                int courseID = 0;
+                Int32.TryParse(liCourse.Key, out courseID);
+                _param.CourseID = courseID;
+                _param.CourseName = liCourse.Value;
+            }
+
+            // 平均分查询
+            _scoreInfoList = new List<DataWork>();
+            List<DataWork> list = new List<DataWork>();
+            status = _dataAccess.GetAvgScore(_param, out list, out message);
+
+            if (status != 0 || list.Count == 0)
+            {
+                MessageBox.Show(this, "未查询到数据！", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return status;
+            }
+            else
+            {
+                if (this.comboBox_TotalType.SelectedIndex == 0)
+                {
+                    _scoreInfoList = list;
+                }
+                else
+                {
+                    // 平均分->Dictionary
+                    Dictionary<string, DataWork> avgScoreDic = new Dictionary<string, DataWork>();
+                    foreach (DataWork avgScoreWork in list)
+                    {
+                        string key = avgScoreWork.CourseNewID + "-" + avgScoreWork.CourseID;
+                        if (!avgScoreDic.ContainsKey(key))
+                        {
+                            avgScoreDic.Add(key, avgScoreWork);
+                        }
+                    }
+
+                    // 循环章节
+                    foreach (DataWork courseWork in _examTypeInfoList)
+                    {
+                        string key = courseWork.CourseNewID + "-" + courseWork.CourseID;
+                        if (avgScoreDic.ContainsKey(key))
+                        {
+                            _scoreInfoList.Add(avgScoreDic[key]);
+                        }
+                        else
+                        {
+                            DataWork newWork = new DataWork();
+                            newWork.ClassID = _param.ClassID;
+                            newWork.ClassName = _param.ClassName;
+                            newWork.ExamTypeID = _param.ExamTypeID;
+                            newWork.CourseNewID = courseWork.CourseNewID;
+                            newWork.CourseID = courseWork.CourseID;
+                            newWork.CourseName = courseWork.CourseName;
+                            newWork.Average = 0;
+                            newWork.Up90Cnt = 0;
+                            newWork.Between8090Cnt = 0;
+                            newWork.Between7080Cnt = 0;
+                            newWork.Between6070Cnt = 0;
+                            newWork.Down60Cnt = 0;
+
+                            _scoreInfoList.Add(newWork);
+                        }
+                    }
+                }
+
+                // 按章节排序
+                _scoreInfoList.OrderBy(work=>work.CourseName);
+
+                if (this.comboBox_TotalType.SelectedIndex == 2)
+                {
+                    // 学生成绩查询
+                    _param.SearchScoreByStuID = true;
+                    ListItem liStu = (ListItem)this.comboBox_Student.SelectedItem;
+                    _param.StuID = liStu.Key;
+                    _param.StuName = liStu.Value;
+
+                    _stuScoreInfoList = new List<DataWork>();
+                    List<DataWork> stuScoreList = new List<DataWork>();
+
+                    status = _dataAccess.GetScoreInfo(_param, out stuScoreList, out message);
+                    if (status != 0 || stuScoreList.Count == 0)
+                    {
+                        MessageBox.Show(this, "未查询到数据！", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return status;
+                    }
+                    else
+                    {
+                        // 学生成绩->Dictionary
+                        Dictionary<string, DataWork> scoreDic = new Dictionary<string, DataWork>();
+                        foreach (DataWork scoreWork in stuScoreList)
+                        {
+                            string key = scoreWork.CourseNewID + "-" + scoreWork.CourseID;
+                            if (!scoreDic.ContainsKey(key))
+                            {
+                                scoreDic.Add(key, scoreWork);
+                            }
+                        }
+
+                        // 循环章节
+                        foreach (DataWork courseWork in _examTypeInfoList)
+                        {
+                            string key = courseWork.CourseNewID + "-" + courseWork.CourseID;
+                            if (scoreDic.ContainsKey(key))
+                            {
+                                _stuScoreInfoList.Add(scoreDic[key]);
+                            }
+                            else
+                            {
+                                DataWork newWork = new DataWork();
+                                newWork.ClassID = _param.ClassID;
+                                newWork.ClassName = _param.ClassName;
+                                newWork.StuID = _param.StuID;
+                                newWork.StuName = _param.StuName;
+                                newWork.ExamTypeID = _param.ExamTypeID;
+                                newWork.CourseNewID = courseWork.CourseNewID;
+                                newWork.CourseNewName = courseWork.CourseNewName;
+                                newWork.CourseID = courseWork.CourseID;
+                                newWork.CourseName = courseWork.CourseName;
+                                newWork.Score = 0;
+                                newWork.Pass = 0;
+                                newWork.Score2 = 0;
+                                newWork.TestAgain = 0;
+                                newWork.ExamDate = DateTime.MinValue;
+
+                                _stuScoreInfoList.Add(newWork);
+                            }
+                        }
+
+                        // 按章节排序
+                        _stuScoreInfoList.OrderBy(work => work.CourseName);
+                    }
+                }
+            }
+            return status;
+        }
+
+        private void btn_Total_Click(object sender, EventArgs e)
+        {
+            if (Search() == 0 && _scoreInfoList.Count > 0)
+            {
+                ChartTab chart = new ChartTab( this.comboBox_TotalType.SelectedIndex, _scoreInfoList, _stuScoreInfoList);
+                if (this.comboBox_TotalType.SelectedIndex == 0)
+                {
+                    AddTabControl(_param, this.tabControl_AvgTotal1, chart);
+                }
+                else if (this.comboBox_TotalType.SelectedIndex == 1)
+                {
+                    AddTabControl(_param, this.tabControl_AvgTotal2, chart);
+                }
+                else if (this.comboBox_TotalType.SelectedIndex == 2)
+                {
+                    AddTabControl(_param, this.tabControl_AvgTotal3, chart);
+                }
+                this.TopMost = true;
+                this.Activate();
+                this.TopMost = false;
+            }
+        }
+
+        private void AddTabControl(DataWork work, TabControl objTabControl, ChartTab objfrm)
+        {
+            try
+            {
+                string pageName = string.Empty;
+                string pageText = string.Empty;
+                switch (this.comboBox_TotalType.SelectedIndex)
+                {
+                    case 0:
+                        pageName = "tabPage" + work.ClassID + work.ExamTypeID + work.CourseNewID + work.CourseID;
+                        pageText = work.ClassName + "/" + work.CourseNewName + work.CourseName;
+                        break;
+                    case 1:
+                        pageName = "tabPage" + work.ClassID + work.ExamTypeID + work.CourseNewID + work.CourseID;
+                        pageText = work.ClassName + "/" + work.CourseNewName;
+                        break;
+                    case 2:
+                        pageName = "tabPage" + work.ClassID + work.ExamTypeID + work.CourseNewID + work.CourseID + work.StuID;
+                        pageText = work.ClassName + "/" + work.CourseNewName + "/" + work.StuName;
+                        break;
+                }
+                if (ErgodicModiForm(pageName, objTabControl))
+                {
+                    //声明一个选项卡对象
+                    TabPage tabPage = new TabPage();
+                    //选项卡的名称
+                    tabPage.Name = pageName;
+                    //选项卡的文本
+                    tabPage.Text = pageText;
+                    //tabPage.TabIndex = node.Index;
+                    tabPage.BackColor = Color.Lavender;
+                    //向选项卡集合添加新选项卡
+                    objTabControl.Controls.Add(tabPage);
+                    //子窗体大小设置为选项卡大小
+                    objfrm.Size = tabPage.Size;
+                    objfrm.Text = pageText;
+                    objfrm.TopLevel = false;
+                    objfrm.Dock = DockStyle.Fill;
+                    //子窗体显示
+                    objfrm.Show();
+                    //将子窗体添加到选项卡中
+                    tabPage.Controls.Add(objfrm);
+                    //设置当前选项卡为新增选项卡
+                    objTabControl.SelectTab(pageName);
+                }
+                else
+                {
+                    //设为当前选中的选项
+                    objTabControl.SelectTab(pageName);
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(this, "添加选项卡时出错！", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private Boolean ErgodicModiForm(string MainTabControlKey, TabControl objTabControl)
+        {
+            //遍历选项卡判断是否存在该子窗体
+            foreach (Control con in objTabControl.Controls)
+            {
+                TabPage tab = (TabPage)con;
+                if (tab.Name == MainTabControlKey)
+                {
+                    return false;//存在
+                }
+            }
+            return true;//不存在
+        }
+
+        private void comboBox_TotalType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (this.comboBox_TotalType.SelectedIndex)
+            {
+                case 0:
+                    this.groupBox_Course.Visible = true;
+                    this.groupBox_Student.Visible = false;
+                    break;
+                case 1:
+                    this.groupBox_Course.Visible = false;
+                    this.groupBox_Student.Visible = false;
+                    break;
+                case 2:
+                    this.groupBox_Course.Visible = false;
+                    this.groupBox_Student.Visible = true;
+                    break;
+            }
+            this.tabControl1.SelectedIndex = this.comboBox_TotalType.SelectedIndex;
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.comboBox_TotalType.SelectedIndex = this.tabControl1.SelectedIndex;
+        }
+
+        private void comboBox_Class_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // 学生取得
+            this.comboBox_Student.Items.Clear();
+            string errMsg = string.Empty;
+            DataWork param = new DataWork();
+            // 班级
+            ListItem liClass = (ListItem)this.comboBox_Class.SelectedItem;
+            param.ClassID = liClass.Key;
+            List<DataWork> stuInfoList = null;
+            int status = _dataAccess.GetStuInfo(param, out stuInfoList, out errMsg);
+
+            if (status == 0 && stuInfoList.Count > 0)
+            {
+                foreach (DataWork stuInfo in stuInfoList)
+                {
+                    this.comboBox_Student.Items.Add(new ListItem(stuInfo.StuID, stuInfo.StuName));
+                }
+                this.comboBox_Student.SelectedIndex = 0;
+            }
+            else
+            {
+                MessageBox.Show(this, "学生没有设置，请先设置学生！", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                this.Close();
+                return;
+            }
+        }
+    }
+}
