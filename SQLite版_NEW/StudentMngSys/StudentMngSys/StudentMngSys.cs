@@ -44,21 +44,6 @@ namespace TJWForms
             this.tabControl1.SelectedIndex = 1;
         }
 
-        private void btn_Import_Click(object sender, EventArgs e)
-        {
-            this.tabControl1.SelectedIndex = 2;
-        }
-
-        private void btn_InitDB_Click(object sender, EventArgs e)
-        {
-            this.tabControl1.SelectedIndex = 4;
-        }
-
-        private void btn_Export_Click(object sender, EventArgs e)
-        {
-            this.tabControl1.SelectedIndex = 3;
-        }
-
         private void btn_ScoreInput_Click(object sender, EventArgs e)
         {
             ScoreInput input = new ScoreInput();
@@ -112,11 +97,14 @@ namespace TJWForms
             TreeNode node2 = new TreeNode();
             node2.Text = "学生设定";
             TreeNode node3 = new TreeNode();
-            node3.Text = "章节设定";
+            node3.Text = "章节设定"; 
+            TreeNode node4 = new TreeNode();
+            node4.Text = "学年设定";
             //一级加入根
             root.Nodes.Add(node1);
             root.Nodes.Add(node2);
             root.Nodes.Add(node3);
+            root.Nodes.Add(node4);
             //
             treeView1.Nodes.Add(root);
             this.treeView1.ExpandAll();

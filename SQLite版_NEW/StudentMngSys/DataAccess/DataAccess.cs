@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
@@ -1124,9 +1125,14 @@ namespace TJWCommon
                 string sqlText = "select A.[yearID],A.[yearName],B.[termID],B.[termName],B.[termDateSt],B.[termDateEd] " + Environment.NewLine +
                     "from tb_AcademicYear A" + Environment.NewLine +
                     "left join tb_Term B" + Environment.NewLine +
-                    "on A.[yearID]=B.[yearID]";
+                    "on A.[yearID]=B.[yearID] " + Environment.NewLine;
                 SQLiteParameter[] para = null;
-                sqlText += "ORDER BY yearID, termID";
+                if (param.YearId != 0)
+                {
+                    sqlText += "where A.[yearID]=@yearID" + Environment.NewLine;
+                    para = new SQLiteParameter[] { new SQLiteParameter("@yearID", param.YearId) };
+                }
+                sqlText += "ORDER BY A.[yearName], B.[termID]";
 
                 myReader = SQLiteHelper.ExecuteReader(command, sqlText, para);
 
@@ -1165,30 +1171,17 @@ namespace TJWCommon
         #endregion
 
         #region Write
-        public int WriteTermList(List<DataWork> paramList, out string message)
+        public int WriteTerm(ArrayList paramList, out string message)
         {
             int status = -1;
             message = string.Empty;
 
-            foreach (DataWork param in paramList)
-            {
-                status = WriteTermProc(param, out message);
-            }
+            status = WriteTermProc(paramList, out message);
 
             return status;
         }
 
-        public int WriteTerm(DataWork param, out string message)
-        {
-            int status = -1;
-            message = string.Empty;
-
-            status = WriteTermProc(param, out message);
-
-            return status;
-        }
-
-        private int WriteTermProc(DataWork param, out string message)
+        private int WriteTermProc(ArrayList paramList, out string message)
         {
             int status = -1;
             message = string.Empty;
@@ -1200,40 +1193,62 @@ namespace TJWCommon
 
                 SQLiteCommand command = SQLiteHelper.Conn.CreateCommand();
 
-                string selectText = "SELECT * FROM tb_Class WHERE classID=@CLASSID ";
-                SQLiteParameter[] selectPara = { new SQLiteParameter("@CLASSID", param.ClassID) };
+                DataWork yearWork = paramList[0] as DataWork;
+                status = DeleteTermProc(yearWork, out message);
 
-                myReader = SQLiteHelper.ExecuteReader(command, selectText, selectPara);
-
-                string sqlText = string.Empty;
-                SQLiteParameter[] para = null;
-                if (!myReader.Read())
+                if (status == 0 || status == 4)
                 {
-                    sqlText = "INSERT INTO tb_Class ( classID " + Environment.NewLine;
-                    sqlText += " ,className ) " + Environment.NewLine;
-                    sqlText += "VALUES ( " + Environment.NewLine;
-                    sqlText += "  @CLASSID " + Environment.NewLine;
-                    sqlText += " ,@CLASSNAME ) " + Environment.NewLine;
+                    string sqlText = string.Empty;
+                    SQLiteParameter[] para = null;
+                    // 登录学年表
+                    sqlText = "INSERT INTO tb_AcademicYear(yearName) values (@yearName) ";
+
+                    para = new SQLiteParameter[] { new SQLiteParameter("@yearName", yearWork.YearName) };
+
+                    SQLiteHelper.ExecuteNonQuery(sqlText, para);
+
+                    // YearID
+                    int yearID = 0;
+                    string getYearIDText = "SELECT MAX(yearID) AS maxID FROM tb_AcademicYear ";
+
+                    myReader = SQLiteHelper.ExecuteReader(command, getYearIDText, null);
+
+                    if (myReader.Read())
+                    {
+                        yearID = SqlOperation.GetInt32(myReader, myReader.GetOrdinal("maxID"));
+                    }
+
+                    // 关闭myReader
+                    if (myReader != null)
+                    {
+                        myReader.Close();
+                    }
+
+                    // 登录学期表
+                    if (yearID > 0)
+                    {
+                        ArrayList termList = paramList[1] as ArrayList;
+                        foreach (DataWork termWork in termList)
+                        {
+                            sqlText = "INSERT INTO tb_Term(yearID, termID, termName, termDateSt, termDateEd) values " + Environment.NewLine +
+                                "(@yearID, @termID, @termName, @termDateSt, @termDateEd)";
+
+                            para = new SQLiteParameter[] { new SQLiteParameter("@yearID", yearID),
+                                                        new SQLiteParameter("@termID", termWork.TermId),
+                                                        new SQLiteParameter("@termName", termWork.TermName),
+                                                        new SQLiteParameter("@termDateSt", SqlOperation.SetYYYYMMDDFromDateTime(termWork.TermDateSt)),
+                                                        new SQLiteParameter("@termDateEd", SqlOperation.SetYYYYMMDDFromDateTime(termWork.TermDateEd))};
+
+                            SQLiteHelper.ExecuteNonQuery(sqlText, para);
+
+                            status = 0;
+                        }
+                    }
+                    else
+                    {
+                        status = -1;
+                    }
                 }
-                else
-                {
-                    sqlText = "UPDATE tb_Class SET classID = @CLASSID " + Environment.NewLine;
-                    sqlText += " ,className = @CLASSNAME " + Environment.NewLine;
-                    sqlText += "WHERE classID = @CLASSID";
-                }
-
-                // 关闭myReader
-                if (myReader != null)
-                {
-                    myReader.Close();
-                }
-
-                para = new SQLiteParameter[]{ new SQLiteParameter("@CLASSID", param.ClassID)
-                                        ,new SQLiteParameter("@CLASSNAME", param.ClassName)};
-
-                SQLiteHelper.ExecuteNonQuery(sqlText, para);
-
-                status = 0;
             }
             catch (Exception ex)
             {
@@ -1265,15 +1280,24 @@ namespace TJWCommon
             int status = -1;
             message = string.Empty;
 
+            if (param.YearId == 0)
+            {
+                return 4;
+            }
+
             try
             {
-                SQLiteHelper.Conn.Open();
+                if (SQLiteHelper.Conn.State != ConnectionState.Open)
+                {
+                    SQLiteHelper.Conn.Open();
+                }
                 string sqlText = string.Empty;
 
                 SQLiteParameter[] para = null;
-                sqlText = "DELETE FROM tb_AcademicYear WHERE yearID = @yearID " + Environment.NewLine;
+                sqlText = "DELETE FROM tb_AcademicYear WHERE yearID = @yearID; " + Environment.NewLine;
+                sqlText += "DELETE FROM tb_Term WHERE yearID = @yearID; " + Environment.NewLine;
 
-                para = new SQLiteParameter[] { new SQLiteParameter("@yearID", param.ClassID) };
+                para = new SQLiteParameter[] { new SQLiteParameter("@yearID", param.YearId) };
                  
                 SQLiteHelper.ExecuteNonQuery(sqlText, para);
 

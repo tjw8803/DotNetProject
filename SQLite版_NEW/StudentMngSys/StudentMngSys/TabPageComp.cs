@@ -28,6 +28,15 @@ namespace TJWForms
         private const string COURSE_ID = "courseID"; // 章节编号
         private const string PASSAGE = "passage"; // 章节
 
+        private const string YEAR_ID = "YEAR_ID"; // 学年ID
+        private const string YEAR_NAME = "YEAR_NAME"; // 学年ID
+        private const string TERM_FST_ID = "TERM_FST_ID"; // 学年ID
+        private const string TERM_FST_DATE_ST = "TERM_FST_DATE_ST"; // 学年ID
+        private const string TERM_FST_DATE_ED = "TERM_FST_DATE_ED"; // 学年ID
+        private const string TERM_SEC_ID = "TERM_SEC_ID"; // 学年ID
+        private const string TERM_SEC_DATE_ST = "TERM_SEC_DATE_ST"; // 学年ID
+        private const string TERM_SEC_DATE_ED = "TERM_SEC_DATE_ED"; // 学年ID
+
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -109,6 +118,30 @@ namespace TJWForms
 
                         columns[PASSAGE].HeaderText = "章节";
                         columns[PASSAGE].Visible = true;
+                    }
+                    break;
+                case 3: // 学年
+                    {
+                        columns[YEAR_ID].HeaderText = "学年ID";
+
+                        columns[YEAR_NAME].HeaderText = "学年";
+                        columns[YEAR_NAME].Visible = true;
+
+                        columns[TERM_FST_ID].HeaderText = "第一学期";
+
+                        columns[TERM_FST_DATE_ST].HeaderText = "第一学期开始";
+                        columns[TERM_FST_DATE_ST].Visible = true;
+
+                        columns[TERM_FST_DATE_ED].HeaderText = "第一学期结束";
+                        columns[TERM_FST_DATE_ED].Visible = true;
+
+                        columns[TERM_SEC_ID].HeaderText = "第二学期";
+
+                        columns[TERM_SEC_DATE_ST].HeaderText = "第二学期开始";
+                        columns[TERM_SEC_DATE_ST].Visible = true;
+
+                        columns[TERM_SEC_DATE_ED].HeaderText = "第二学期结束";
+                        columns[TERM_SEC_DATE_ED].Visible = true;
                     }
                     break;
             }
@@ -222,6 +255,54 @@ namespace TJWForms
                         }
                     }
                     break;
+                case 3: // 学年
+                    {
+                        status = _dataAccess.GetTermInfo(param, out retList, out errMsg);
+
+                        if (status == 0)
+                        {
+                            Dictionary<int, List<DataWork>> dic = new Dictionary<int, List<DataWork>>();
+                            foreach (DataWork work in retList)
+                            {
+                                if (!dic.ContainsKey(work.YearId))
+                                {
+                                    List<DataWork> list = new List<DataWork>();
+                                    list.Add(work);
+                                    dic.Add(work.YearId, list);
+                                }
+                                else
+                                {
+                                    dic[work.YearId].Add(work);
+                                }
+                            }
+
+                            foreach (KeyValuePair<int, List<DataWork>> pair in dic)
+                            {
+                                DataRow dr = table.NewRow();
+
+                                if (pair.Value.Count > 0)
+                                {
+                                    dr[YEAR_ID] = pair.Value[0].YearId;
+                                    dr[YEAR_NAME] = pair.Value[0].YearName;
+
+                                    if (pair.Value.Count == 1)
+                                    {
+                                        SetTermRow(ref dr, pair.Value[0]);
+                                    }
+                                    else
+                                    {
+                                        foreach (DataWork wk in pair.Value)
+                                        {
+                                            SetTermRow(ref dr, wk);
+                                        }
+                                    }
+
+                                    table.Rows.Add(dr);
+                                }
+                            }
+                        }
+                    }
+                    break;
             }
 
             tb_DataCount.Text = "共有 " + retList.Count.ToString("#,##0") + " 条数据";
@@ -229,6 +310,23 @@ namespace TJWForms
             this.gridView.DataSource = table;
             GridViewRowColor(gridView);
             SetToolButton();
+        }
+
+        private void SetTermRow(ref DataRow dr, DataWork wk)
+        {
+            switch (wk.TermId)
+            {
+                case 1:
+                    dr[TERM_FST_ID] = wk.TermId;
+                    dr[TERM_FST_DATE_ST] = wk.TermDateSt.ToString("yyyy/MM/dd");
+                    dr[TERM_FST_DATE_ED] = wk.TermDateEd.ToString("yyyy/MM/dd");
+                    break;
+                case 2:
+                    dr[TERM_SEC_ID] = wk.TermId;
+                    dr[TERM_SEC_DATE_ST] = wk.TermDateSt.ToString("yyyy/MM/dd");
+                    dr[TERM_SEC_DATE_ED] = wk.TermDateEd.ToString("yyyy/MM/dd");
+                    break;
+            }
         }
 
         private void SetToolButton()
@@ -347,6 +445,41 @@ namespace TJWForms
                         table.Columns.Add(column6);
                     }
                     break;
+                case 3: // 学年
+                    {
+                        DataColumn column1 = new DataColumn(YEAR_ID, typeof(string));
+                        column1.Caption = "学年ID";
+                        table.Columns.Add(column1);
+
+                        DataColumn column2 = new DataColumn(YEAR_NAME, typeof(string));
+                        column2.Caption = "学年";
+                        table.Columns.Add(column2);
+
+                        DataColumn column3 = new DataColumn(TERM_FST_ID, typeof(string));
+                        column3.Caption = "第一学期";
+                        table.Columns.Add(column3);
+
+                        DataColumn column4 = new DataColumn(TERM_FST_DATE_ST, typeof(string));
+                        column4.Caption = "第一学期开始";
+                        table.Columns.Add(column4);
+
+                        DataColumn column5 = new DataColumn(TERM_FST_DATE_ED, typeof(string));
+                        column5.Caption = "第一学期结束";
+                        table.Columns.Add(column5);
+
+                        DataColumn column6 = new DataColumn(TERM_SEC_ID, typeof(string));
+                        column6.Caption = "第二学期";
+                        table.Columns.Add(column6);
+
+                        DataColumn column7 = new DataColumn(TERM_SEC_DATE_ST, typeof(string));
+                        column7.Caption = "第二学期开始";
+                        table.Columns.Add(column7);
+
+                        DataColumn column8 = new DataColumn(TERM_SEC_DATE_ED, typeof(string));
+                        column8.Caption = "第二学期结束";
+                        table.Columns.Add(column8);
+                    }
+                    break;
             }
 
             return table;
@@ -404,6 +537,15 @@ namespace TJWForms
             int courseID = 0;
             string passage = string.Empty;
 
+            int yearID = 0;
+            string yearName = string.Empty;
+            int termFstID = 0;
+            DateTime termDateFstSt = DateTime.MinValue;
+            DateTime termDateFstEd = DateTime.MinValue;
+            int termSecID = 0;
+            DateTime termDateSecSt = DateTime.MinValue;
+            DateTime termDateSecEd = DateTime.MinValue;
+
             switch (_mode)
             {
                 case 0: // 班级
@@ -439,6 +581,31 @@ namespace TJWForms
                         dataWork.CourseNewID = courseNewID;
                         dataWork.CourseID = courseID;
                         dataWork.CourseName = passage;
+                    }
+                    break;
+                case 3: // 学年
+                    {
+                        yearID = int.Parse(gridView.Rows[cellRowIndex].Cells[YEAR_ID].Value.ToString());
+                        yearName = (string)gridView.Rows[cellRowIndex].Cells[YEAR_NAME].Value;
+                        termFstID = int.Parse(gridView.Rows[cellRowIndex].Cells[TERM_FST_ID].Value.ToString());
+                        termDateFstSt = DateTime.ParseExact(gridView.Rows[cellRowIndex].Cells[TERM_FST_DATE_ST].Value.ToString(), 
+                            "yyyy/MM/dd", System.Globalization.CultureInfo.CurrentCulture);
+                        termDateFstEd = DateTime.ParseExact(gridView.Rows[cellRowIndex].Cells[TERM_FST_DATE_ED].Value.ToString(),
+                            "yyyy/MM/dd", System.Globalization.CultureInfo.CurrentCulture);
+                        termSecID = int.Parse(gridView.Rows[cellRowIndex].Cells[TERM_SEC_ID].Value.ToString());
+                        termDateSecSt = DateTime.ParseExact(gridView.Rows[cellRowIndex].Cells[TERM_SEC_DATE_ST].Value.ToString(),
+                            "yyyy/MM/dd", System.Globalization.CultureInfo.CurrentCulture);
+                        termDateSecEd = DateTime.ParseExact(gridView.Rows[cellRowIndex].Cells[TERM_SEC_DATE_ED].Value.ToString(),
+                            "yyyy/MM/dd", System.Globalization.CultureInfo.CurrentCulture);
+
+                        dataWork.YearId = yearID;
+                        dataWork.YearName = yearName;
+                        dataWork.TermFstId = termFstID;
+                        dataWork.TermDateFstSt = termDateFstSt;
+                        dataWork.TermDateFstEd = termDateFstEd;
+                        dataWork.TermSecId = termSecID;
+                        dataWork.TermDateSecSt = termDateSecSt;
+                        dataWork.TermDateSecEd = termDateSecEd;
                     }
                     break;
             }
@@ -483,6 +650,13 @@ namespace TJWForms
                 case 2: // 考试类型
                     {
                         ExamOpt examOpt = new ExamOpt(work, index);
+                        examOpt.UnDisplaying += new UnDisplayEventHandler(Undisplaying);
+                        examOpt.ShowDialog();
+                    }
+                    break;
+                case 3: // 学年设置
+                    {
+                        TermOpt examOpt = new TermOpt(work, index);
                         examOpt.UnDisplaying += new UnDisplayEventHandler(Undisplaying);
                         examOpt.ShowDialog();
                     }
@@ -561,6 +735,11 @@ namespace TJWForms
                 case 2: // 考试类型
                     {
                         status = _dataAccess.DeleteExamType(dataWork, out errMessage);
+                    }
+                    break;
+                case 3: // 学年
+                    {
+                        status = _dataAccess.DeleteTerm(dataWork, out errMessage);
                     }
                     break;
             }

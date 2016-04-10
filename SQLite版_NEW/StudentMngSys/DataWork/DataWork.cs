@@ -14,6 +14,14 @@ namespace TJWUIData
         public DateTime TermDateSt { get; set; }
         public DateTime TermDateEd { get; set; }
 
+        public int TermFstId { get; set; }
+        public DateTime TermDateFstSt { get; set; }
+        public DateTime TermDateFstEd { get; set; }
+        public int TermSecId { get; set; }
+        public DateTime TermDateSecSt { get; set; }
+        public DateTime TermDateSecEd { get; set; }
+
+
         public double OrigScore {  get;set; }
 
         public double TotalScore
@@ -199,5 +207,7 @@ namespace TJWUIData
 
             return dic;
         }
+
     }
+
 }
