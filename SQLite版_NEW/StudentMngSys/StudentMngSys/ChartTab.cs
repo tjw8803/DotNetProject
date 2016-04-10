@@ -73,6 +73,10 @@ namespace TJWForms
             {
                 CreateColumnChart(_list, _list2);
             }
+            else if (_mode == 3)
+            {
+                CreateLineChart(_list);
+            }
         }
 
         private void CreatePieChart(List<DataWork4Chart> list)

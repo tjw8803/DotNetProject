@@ -87,7 +87,27 @@ namespace TJWForms
                 this.comboBox_Type.SelectedIndex = 1;
             }
 
+            this.comboBox_AcademicYear.SelectedIndex = InitAcademicYear(DateTime.Now);
+            this.comboBox_Term.SelectedIndex = 0;
+
             this.comboBox_Class.Focus();
+        }
+        private int InitAcademicYear(DateTime currentTime)
+        {
+            int minAcademicYear = currentTime.Year * 100 + 2; // 201602
+            int maxAcademicYear = currentTime.Year * 100 + 9; // 201609
+            int selectIndex = 0;
+
+            if (currentTime.Year * 100 + currentTime.Day < minAcademicYear)
+            {
+                selectIndex = currentTime.Year - 2010;
+            }
+            else if (currentTime.Year * 100 + currentTime.Day > maxAcademicYear)
+            {
+                selectIndex = currentTime.Year - 2011;
+            }
+
+            return selectIndex;
         }
 
         private void comboBox_Type_SelectedIndexChanged(object sender, EventArgs e)
@@ -194,6 +214,22 @@ namespace TJWForms
                 _param.CourseID = courseID;
                 _param.CourseName = liCourse.Value;
             }
+            else if (this.comboBox_TotalType.SelectedIndex == 3)
+            {
+                DataWork wk = new DataWork();
+                wk.YearName = this.comboBox_AcademicYear.SelectedItem.ToString();
+                wk.TermId = this.comboBox_Term.SelectedIndex + 1;
+
+                List<DataWork> termList = null;
+                string errMsg = string.Empty;
+                this._dataAccess.GetTermInfo(wk, out termList, out errMsg);
+
+                if (termList != null && termList.Count > 0)
+                {
+                    _param.SearchDateTimeSt = termList[0].TermDateSt;
+                    _param.SearchDateTimeEd = termList[0].TermDateEd;
+                }
+            }
 
             // 平均分查询
             _scoreInfoList = new List<DataWork>();
@@ -211,7 +247,7 @@ namespace TJWForms
                 {
                     _scoreInfoList = list;
                 }
-                else
+                else if (this.comboBox_TotalType.SelectedIndex == 1 || this.comboBox_TotalType.SelectedIndex == 2)
                 {
                     // 平均分->Dictionary
                     Dictionary<string, DataWork> avgScoreDic = new Dictionary<string, DataWork>();
@@ -251,10 +287,14 @@ namespace TJWForms
                             _scoreInfoList.Add(newWork);
                         }
                     }
-                }
 
-                // 按章节排序
-                _scoreInfoList.OrderBy(work=>work.CourseName);
+                    // 按章节排序
+                    _scoreInfoList.OrderBy(work => work.CourseName);
+                }
+                else if (this.comboBox_TotalType.SelectedIndex == 3)
+                {
+                    _scoreInfoList = list;
+                }
 
                 if (this.comboBox_TotalType.SelectedIndex == 2)
                 {
@@ -341,6 +381,10 @@ namespace TJWForms
                 {
                     AddTabControl(_param, this.tabControl_AvgTotal3, chart);
                 }
+                else if (this.comboBox_TotalType.SelectedIndex == 3)
+                {
+                    AddTabControl(_param, this.tabControl_TermTotal, chart);
+                }
                 this.TopMost = true;
                 this.Activate();
                 this.TopMost = false;
@@ -425,14 +469,22 @@ namespace TJWForms
                 case 0:
                     this.groupBox_Course.Visible = true;
                     this.groupBox_Student.Visible = false;
+                    this.panel_Year.Visible = false;
                     break;
                 case 1:
                     this.groupBox_Course.Visible = false;
                     this.groupBox_Student.Visible = false;
+                    this.panel_Year.Visible = false;
                     break;
                 case 2:
                     this.groupBox_Course.Visible = false;
                     this.groupBox_Student.Visible = true;
+                    this.panel_Year.Visible = false;
+                    break;
+                case 3:
+                    this.groupBox_Course.Visible = false;
+                    this.groupBox_Student.Visible = false;
+                    this.panel_Year.Visible = true;
                     break;
             }
             this.tabControl1.SelectedIndex = this.comboBox_TotalType.SelectedIndex;

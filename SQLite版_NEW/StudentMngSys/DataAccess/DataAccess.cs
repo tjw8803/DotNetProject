@@ -807,6 +807,16 @@ namespace TJWCommon
                     sqlText += "AND SCO.examDate=@EXAMDATE ";
                     paraList.Add(new SQLiteParameter("@EXAMDATE", SqlOperation.SetYYYYMMDDFromDateTime(param.ExamDate)));
                 }
+                if (param.SearchDateTimeSt != DateTime.MinValue)
+                {
+                    sqlText += "AND SCO.examDate>=@EXAMDATEST ";
+                    paraList.Add(new SQLiteParameter("@EXAMDATEST", SqlOperation.SetYYYYMMDDFromDateTime(param.SearchDateTimeSt)));
+                }
+                if (param.SearchDateTimeEd != DateTime.MinValue)
+                {
+                    sqlText += "AND SCO.examDate<=@EXAMDATEED ";
+                    paraList.Add(new SQLiteParameter("@EXAMDATEED", SqlOperation.SetYYYYMMDDFromDateTime(param.SearchDateTimeEd)));
+                }
 
                 para = paraList.ToArray();
 
@@ -874,6 +884,9 @@ namespace TJWCommon
                 SQLiteHelper.Conn.Open();
                 SQLiteCommand command = SQLiteHelper.Conn.CreateCommand();
 
+                SQLiteParameter[] para = null;
+                List<SQLiteParameter> paraList = new List<SQLiteParameter>();
+
                 string sqlText = "SELECT " + Environment.NewLine +
                     "SUB.classID " + Environment.NewLine +
                     ",CLS.className " + Environment.NewLine +
@@ -900,14 +913,25 @@ namespace TJWCommon
                     ",SUM(CASE WHEN SCO.score>=60 AND SCO.score<70 THEN 1 ELSE 0 END) AS Btw6070 " + Environment.NewLine +
                     ",SUM(CASE WHEN SCO.score<60 THEN 1 ELSE 0 END) AS Down60 " + Environment.NewLine +
                     "FROM tb_Score AS SCO " + Environment.NewLine +
-                    "GROUP BY SCO.classID,SCO.typeID,SCO.courseID,SCO.courseDetailID " + Environment.NewLine +
-                    ") AS SUB " + Environment.NewLine +
-                    "LEFT JOIN tb_Class AS CLS ON CLS.classID = SUB.classID " + Environment.NewLine +
-                    "LEFT JOIN tb_CourseDetail AS EXAM ON EXAM.typeID = SUB.typeID AND EXAM.courseID = SUB.courseID AND EXAM.courseDetailID = SUB.courseDetailID " + Environment.NewLine +
-                    "WHERE 1=1 ";
+                    "WHERE 1=1 " + Environment.NewLine;
 
-                SQLiteParameter[] para = null;
-                List<SQLiteParameter> paraList = new List<SQLiteParameter>();
+                if (param.SearchDateTimeSt != DateTime.MinValue)
+                {
+                    sqlText += "AND SCO.examDate>=@EXAMDATEST ";
+                    paraList.Add(new SQLiteParameter("@EXAMDATEST", SqlOperation.SetYYYYMMDDFromDateTime(param.SearchDateTimeSt)));
+                }
+                if (param.SearchDateTimeEd != DateTime.MinValue)
+                {
+                    sqlText += "AND SCO.examDate<=@EXAMDATEED ";
+                    paraList.Add(new SQLiteParameter("@EXAMDATEED", SqlOperation.SetYYYYMMDDFromDateTime(param.SearchDateTimeEd)));
+                }
+
+                sqlText += "GROUP BY SCO.classID,SCO.typeID,SCO.courseID,SCO.courseDetailID " + Environment.NewLine +
+                ") AS SUB " + Environment.NewLine +
+                "LEFT JOIN tb_Class AS CLS ON CLS.classID = SUB.classID " + Environment.NewLine +
+                "LEFT JOIN tb_CourseDetail AS EXAM ON EXAM.typeID = SUB.typeID AND EXAM.courseID = SUB.courseID AND EXAM.courseDetailID = SUB.courseDetailID " + Environment.NewLine +
+                "WHERE 1=1 ";
+
                 if (!string.IsNullOrEmpty(param.ClassID) && !param.ClassID.Equals("0"))
                 {
                     sqlText += "AND SUB.classID=@CLASSID ";
@@ -1125,15 +1149,26 @@ namespace TJWCommon
                 string sqlText = "select A.[yearID],A.[yearName],B.[termID],B.[termName],B.[termDateSt],B.[termDateEd] " + Environment.NewLine +
                     "from tb_AcademicYear A" + Environment.NewLine +
                     "left join tb_Term B" + Environment.NewLine +
-                    "on A.[yearID]=B.[yearID] " + Environment.NewLine;
+                    "on A.[yearID]=B.[yearID] where 1=1 " + Environment.NewLine;
                 SQLiteParameter[] para = null;
+                List<SQLiteParameter> paraList = new List<SQLiteParameter>();
                 if (param.YearId != 0)
                 {
-                    sqlText += "where A.[yearID]=@yearID" + Environment.NewLine;
-                    para = new SQLiteParameter[] { new SQLiteParameter("@yearID", param.YearId) };
+                    sqlText += "and A.[yearID]=@yearID" + Environment.NewLine;
+                    paraList.Add( new SQLiteParameter("@yearID", param.YearId) );
+                }
+                if (!string.IsNullOrEmpty(param.YearName))
+                {
+                    sqlText += "and A.[yearName]=@yearName" + Environment.NewLine;
+                    paraList.Add(new SQLiteParameter("@yearName", param.YearName));
+                }
+                if (param.TermId != 0)
+                {
+                    sqlText += "and B.[termID]=@termID" + Environment.NewLine;
+                    paraList.Add(new SQLiteParameter("@termID", param.TermId));
                 }
                 sqlText += "ORDER BY A.[yearName], B.[termID]";
-
+                para = paraList.ToArray();
                 myReader = SQLiteHelper.ExecuteReader(command, sqlText, para);
 
                 while (myReader.Read())
