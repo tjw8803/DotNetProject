@@ -63,9 +63,14 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="XmlByteSerializer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\VS2013_DLL\XmlByteSerializer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FormShowHideFx.cs" />
+    <Compile Include="ReadExamInfo.cs" />
     <Compile Include="ListItem.cs" />
     <Compile Include="NPOIExcelHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

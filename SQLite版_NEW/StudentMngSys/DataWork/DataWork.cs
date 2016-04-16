@@ -21,6 +21,10 @@ namespace TJWUIData
         public DateTime TermDateSecSt { get; set; }
         public DateTime TermDateSecEd { get; set; }
 
+        public DateTime SearchDateTimeSt  { get; set; }
+        public DateTime SearchDateTimeEd { get; set; }
+
+        public int SearchMode { get; set; }
 
         public double OrigScore {  get;set; }
 

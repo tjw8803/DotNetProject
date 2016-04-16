@@ -37,7 +37,13 @@
             this.tabControl_AvgTotal2 = new TJWForms.MyTabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabControl_AvgTotal3 = new TJWForms.MyTabControl();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tabControl_TermTotal = new TJWForms.MyTabControl();
             this.panel_Left = new System.Windows.Forms.Panel();
+            this.panel_Year = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.comboBox_Term = new System.Windows.Forms.ComboBox();
+            this.comboBox_AcademicYear = new System.Windows.Forms.ComboBox();
             this.panel_Group = new System.Windows.Forms.Panel();
             this.groupBox_Student = new System.Windows.Forms.GroupBox();
             this.comboBox_Student = new System.Windows.Forms.ComboBox();
@@ -51,14 +57,15 @@
             this.btn_Total = new System.Windows.Forms.Button();
             this.groupBox_Class = new System.Windows.Forms.GroupBox();
             this.comboBox_Class = new System.Windows.Forms.ComboBox();
-            this.groupBox_ExamType = new System.Windows.Forms.GroupBox();
-            this.comboBox_Type = new System.Windows.Forms.ComboBox();
             this.panel_Full.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.panel_Left.SuspendLayout();
+            this.panel_Year.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.panel_Group.SuspendLayout();
             this.groupBox_Student.SuspendLayout();
             this.groupBox_Course.SuspendLayout();
@@ -66,7 +73,6 @@
             this.groupBox1.SuspendLayout();
             this.groupBox_TotalType.SuspendLayout();
             this.groupBox_Class.SuspendLayout();
-            this.groupBox_ExamType.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel_Full
@@ -85,6 +91,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(200, 0);
             this.tabControl1.Name = "tabControl1";
@@ -102,7 +109,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(576, 535);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "分数段人数统计表";
+            this.tabPage1.Text = "分数段人数统计图";
             // 
             // tabControl_AvgTotal1
             // 
@@ -125,7 +132,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(576, 535);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "章节平均分统计表";
+            this.tabPage2.Text = "考试批次平均分统计图";
             // 
             // tabControl_AvgTotal2
             // 
@@ -148,7 +155,8 @@
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(576, 535);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "个人成绩统计表";
+            this.tabPage3.Text = "个人成绩统计图";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // tabControl_AvgTotal3
             // 
@@ -162,25 +170,109 @@
             this.tabControl_AvgTotal3.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl_AvgTotal3.TabIndex = 3;
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.tabControl_TermTotal);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(576, 535);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "学年度成绩统计图";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // tabControl_TermTotal
+            // 
+            this.tabControl_TermTotal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl_TermTotal.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+            this.tabControl_TermTotal.ItemSize = new System.Drawing.Size(150, 25);
+            this.tabControl_TermTotal.Location = new System.Drawing.Point(0, 0);
+            this.tabControl_TermTotal.Name = "tabControl_TermTotal";
+            this.tabControl_TermTotal.SelectedIndex = 0;
+            this.tabControl_TermTotal.Size = new System.Drawing.Size(576, 535);
+            this.tabControl_TermTotal.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.tabControl_TermTotal.TabIndex = 4;
+            // 
             // panel_Left
             // 
+            this.panel_Left.Controls.Add(this.panel_Year);
             this.panel_Left.Controls.Add(this.panel_Group);
             this.panel_Left.Controls.Add(this.panel_Course);
             this.panel_Left.Controls.Add(this.groupBox_TotalType);
             this.panel_Left.Controls.Add(this.btn_Total);
             this.panel_Left.Controls.Add(this.groupBox_Class);
-            this.panel_Left.Controls.Add(this.groupBox_ExamType);
             this.panel_Left.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel_Left.Location = new System.Drawing.Point(0, 0);
             this.panel_Left.Name = "panel_Left";
             this.panel_Left.Size = new System.Drawing.Size(200, 561);
             this.panel_Left.TabIndex = 0;
             // 
+            // panel_Year
+            // 
+            this.panel_Year.Controls.Add(this.groupBox2);
+            this.panel_Year.Location = new System.Drawing.Point(0, 212);
+            this.panel_Year.Name = "panel_Year";
+            this.panel_Year.Size = new System.Drawing.Size(200, 93);
+            this.panel_Year.TabIndex = 7;
+            this.panel_Year.Visible = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.comboBox_Term);
+            this.groupBox2.Controls.Add(this.comboBox_AcademicYear);
+            this.groupBox2.Location = new System.Drawing.Point(9, 4);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(182, 86);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "学年度";
+            // 
+            // comboBox_Term
+            // 
+            this.comboBox_Term.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Term.FormattingEnabled = true;
+            this.comboBox_Term.Items.AddRange(new object[] {
+            "第一学期",
+            "第二学期"});
+            this.comboBox_Term.Location = new System.Drawing.Point(4, 58);
+            this.comboBox_Term.Name = "comboBox_Term";
+            this.comboBox_Term.Size = new System.Drawing.Size(175, 20);
+            this.comboBox_Term.TabIndex = 5;
+            // 
+            // comboBox_AcademicYear
+            // 
+            this.comboBox_AcademicYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_AcademicYear.FormattingEnabled = true;
+            this.comboBox_AcademicYear.Items.AddRange(new object[] {
+            "2010-2011学年",
+            "2011-2012学年",
+            "2012-2013学年",
+            "2013-2014学年",
+            "2014-2015学年",
+            "2015-2016学年",
+            "2016-2017学年",
+            "2017-2018学年",
+            "2018-2019学年",
+            "2019-2020学年",
+            "2020-2021学年",
+            "2021-2022学年",
+            "2022-2023学年",
+            "2023-2024学年",
+            "2024-2025学年",
+            "2025-2026学年",
+            "2026-2027学年",
+            "2027-2028学年",
+            "2028-2029学年",
+            "2029-2030学年"});
+            this.comboBox_AcademicYear.Location = new System.Drawing.Point(4, 23);
+            this.comboBox_AcademicYear.Name = "comboBox_AcademicYear";
+            this.comboBox_AcademicYear.Size = new System.Drawing.Size(175, 20);
+            this.comboBox_AcademicYear.TabIndex = 3;
+            // 
             // panel_Group
             // 
             this.panel_Group.Controls.Add(this.groupBox_Student);
             this.panel_Group.Controls.Add(this.groupBox_Course);
-            this.panel_Group.Location = new System.Drawing.Point(0, 272);
+            this.panel_Group.Location = new System.Drawing.Point(0, 212);
             this.panel_Group.Name = "panel_Group";
             this.panel_Group.Size = new System.Drawing.Size(200, 69);
             this.panel_Group.TabIndex = 6;
@@ -213,7 +305,7 @@
             this.groupBox_Course.Size = new System.Drawing.Size(182, 60);
             this.groupBox_Course.TabIndex = 3;
             this.groupBox_Course.TabStop = false;
-            this.groupBox_Course.Text = "章节";
+            this.groupBox_Course.Text = "考试批次";
             // 
             // comboBox_Course
             // 
@@ -227,7 +319,7 @@
             // panel_Course
             // 
             this.panel_Course.Controls.Add(this.groupBox1);
-            this.panel_Course.Location = new System.Drawing.Point(0, 204);
+            this.panel_Course.Location = new System.Drawing.Point(0, 144);
             this.panel_Course.Name = "panel_Course";
             this.panel_Course.Size = new System.Drawing.Size(200, 69);
             this.panel_Course.TabIndex = 5;
@@ -268,8 +360,9 @@
             this.comboBox_TotalType.FormattingEnabled = true;
             this.comboBox_TotalType.Items.AddRange(new object[] {
             "分数段人数统计图",
-            "章节平均分统计图",
-            "个人成绩统计表"});
+            "考试批次平均分统计图",
+            "个人成绩统计图",
+            "学年度成绩统计图"});
             this.comboBox_TotalType.Location = new System.Drawing.Point(4, 23);
             this.comboBox_TotalType.Name = "comboBox_TotalType";
             this.comboBox_TotalType.Size = new System.Drawing.Size(175, 20);
@@ -307,27 +400,6 @@
             this.comboBox_Class.TabIndex = 1;
             this.comboBox_Class.SelectedIndexChanged += new System.EventHandler(this.comboBox_Class_SelectedIndexChanged);
             // 
-            // groupBox_ExamType
-            // 
-            this.groupBox_ExamType.Controls.Add(this.comboBox_Type);
-            this.groupBox_ExamType.Location = new System.Drawing.Point(9, 141);
-            this.groupBox_ExamType.Name = "groupBox_ExamType";
-            this.groupBox_ExamType.Size = new System.Drawing.Size(182, 60);
-            this.groupBox_ExamType.TabIndex = 2;
-            this.groupBox_ExamType.TabStop = false;
-            this.groupBox_ExamType.Text = "类型";
-            // 
-            // comboBox_Type
-            // 
-            this.comboBox_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_Type.Enabled = false;
-            this.comboBox_Type.FormattingEnabled = true;
-            this.comboBox_Type.Location = new System.Drawing.Point(4, 23);
-            this.comboBox_Type.Name = "comboBox_Type";
-            this.comboBox_Type.Size = new System.Drawing.Size(175, 20);
-            this.comboBox_Type.TabIndex = 2;
-            this.comboBox_Type.SelectedIndexChanged += new System.EventHandler(this.comboBox_Type_SelectedIndexChanged);
-            // 
             // ScoreTotalChart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -345,7 +417,10 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
             this.panel_Left.ResumeLayout(false);
+            this.panel_Year.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.panel_Group.ResumeLayout(false);
             this.groupBox_Student.ResumeLayout(false);
             this.groupBox_Course.ResumeLayout(false);
@@ -353,7 +428,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox_TotalType.ResumeLayout(false);
             this.groupBox_Class.ResumeLayout(false);
-            this.groupBox_ExamType.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -364,9 +438,7 @@
         private System.Windows.Forms.Panel panel_Left;
         //private System.Windows.Forms.TabControl tabControl1;
         private MyTabControl tabControl_AvgTotal1;
-        private System.Windows.Forms.GroupBox groupBox_ExamType;
         private System.Windows.Forms.GroupBox groupBox_Course;
-        private System.Windows.Forms.ComboBox comboBox_Type;
         private System.Windows.Forms.ComboBox comboBox_Course;
         private System.Windows.Forms.GroupBox groupBox_Class;
         private System.Windows.Forms.ComboBox comboBox_Class;
@@ -385,5 +457,11 @@
         private System.Windows.Forms.ComboBox comboBox_CourseName;
         private System.Windows.Forms.Panel panel_Group;
         private System.Windows.Forms.Panel panel_Course;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Panel panel_Year;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ComboBox comboBox_AcademicYear;
+        private System.Windows.Forms.ComboBox comboBox_Term;
+        private MyTabControl tabControl_TermTotal;
     }
 }

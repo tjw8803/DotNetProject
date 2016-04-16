@@ -29,23 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScoreTotal));
             this.panel_Full = new System.Windows.Forms.Panel();
             this.panel_Grid = new System.Windows.Forms.Panel();
             this.gridView_Score = new System.Windows.Forms.DataGridView();
             this.panel_Top = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label_Mark = new System.Windows.Forms.Label();
             this.comboBox_CourName = new System.Windows.Forms.ComboBox();
             this.radioButton_AllDisplay = new System.Windows.Forms.RadioButton();
-            this.radioButton_NoReTest = new System.Windows.Forms.RadioButton();
             this.radioButton_Pass = new System.Windows.Forms.RadioButton();
             this.comboBox_Course = new System.Windows.Forms.ComboBox();
-            this.comboBox_Type = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tb_ClassName = new System.Windows.Forms.TextBox();
@@ -55,7 +51,6 @@
             this.tb_StuID = new System.Windows.Forms.TextBox();
             this.panel_Bottom = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -104,14 +99,14 @@
             // 
             this.gridView_Score.AllowUserToAddRows = false;
             this.gridView_Score.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.MediumSlateBlue;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridView_Score.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.MediumSlateBlue;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridView_Score.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.gridView_Score.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridView_Score.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridView_Score.EnableHeadersVisualStyles = false;
@@ -119,16 +114,16 @@
             this.gridView_Score.MultiSelect = false;
             this.gridView_Score.Name = "gridView_Score";
             this.gridView_Score.ReadOnly = true;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DarkOrange;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridView_Score.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DarkOrange;
-            this.gridView_Score.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.DarkOrange;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridView_Score.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.DarkOrange;
+            this.gridView_Score.RowsDefaultCellStyle = dataGridViewCellStyle9;
             this.gridView_Score.RowTemplate.Height = 23;
             this.gridView_Score.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.gridView_Score.Size = new System.Drawing.Size(834, 386);
@@ -149,14 +144,10 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label_Mark);
             this.groupBox1.Controls.Add(this.comboBox_CourName);
             this.groupBox1.Controls.Add(this.radioButton_AllDisplay);
-            this.groupBox1.Controls.Add(this.radioButton_NoReTest);
             this.groupBox1.Controls.Add(this.radioButton_Pass);
             this.groupBox1.Controls.Add(this.comboBox_Course);
-            this.groupBox1.Controls.Add(this.comboBox_Type);
-            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.tb_ClassName);
@@ -171,25 +162,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "条件";
             // 
-            // label_Mark
-            // 
-            this.label_Mark.AutoSize = true;
-            this.label_Mark.Location = new System.Drawing.Point(642, 27);
-            this.label_Mark.Name = "label_Mark";
-            this.label_Mark.Size = new System.Drawing.Size(23, 15);
-            this.label_Mark.TabIndex = 15;
-            this.label_Mark.Text = "=>";
-            this.label_Mark.Visible = false;
-            // 
             // comboBox_CourName
             // 
             this.comboBox_CourName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_CourName.FormattingEnabled = true;
-            this.comboBox_CourName.Location = new System.Drawing.Point(669, 23);
+            this.comboBox_CourName.Location = new System.Drawing.Point(534, 23);
             this.comboBox_CourName.Name = "comboBox_CourName";
             this.comboBox_CourName.Size = new System.Drawing.Size(104, 23);
             this.comboBox_CourName.TabIndex = 5;
-            this.comboBox_CourName.Visible = false;
             this.comboBox_CourName.SelectedIndexChanged += new System.EventHandler(this.comboBox_CourName_SelectedIndexChanged);
             // 
             // radioButton_AllDisplay
@@ -205,21 +185,10 @@
             this.radioButton_AllDisplay.UseVisualStyleBackColor = true;
             this.radioButton_AllDisplay.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
             // 
-            // radioButton_NoReTest
-            // 
-            this.radioButton_NoReTest.AutoSize = true;
-            this.radioButton_NoReTest.Location = new System.Drawing.Point(644, 88);
-            this.radioButton_NoReTest.Name = "radioButton_NoReTest";
-            this.radioButton_NoReTest.Size = new System.Drawing.Size(70, 19);
-            this.radioButton_NoReTest.TabIndex = 8;
-            this.radioButton_NoReTest.Text = "未补考";
-            this.radioButton_NoReTest.UseVisualStyleBackColor = true;
-            this.radioButton_NoReTest.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
-            // 
             // radioButton_Pass
             // 
             this.radioButton_Pass.AutoSize = true;
-            this.radioButton_Pass.Location = new System.Drawing.Point(568, 88);
+            this.radioButton_Pass.Location = new System.Drawing.Point(636, 88);
             this.radioButton_Pass.Name = "radioButton_Pass";
             this.radioButton_Pass.Size = new System.Drawing.Size(70, 19);
             this.radioButton_Pass.TabIndex = 7;
@@ -236,25 +205,6 @@
             this.comboBox_Course.Size = new System.Drawing.Size(175, 23);
             this.comboBox_Course.TabIndex = 6;
             // 
-            // comboBox_Type
-            // 
-            this.comboBox_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_Type.FormattingEnabled = true;
-            this.comboBox_Type.Location = new System.Drawing.Point(534, 23);
-            this.comboBox_Type.Name = "comboBox_Type";
-            this.comboBox_Type.Size = new System.Drawing.Size(104, 23);
-            this.comboBox_Type.TabIndex = 4;
-            this.comboBox_Type.SelectedIndexChanged += new System.EventHandler(this.comboBox_Type_SelectedIndexChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(474, 60);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(37, 15);
-            this.label4.TabIndex = 12;
-            this.label4.Text = "章节";
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -262,7 +212,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(37, 15);
             this.label5.TabIndex = 13;
-            this.label5.Text = "类型";
+            this.label5.Text = "科目";
             // 
             // label1
             // 
@@ -328,7 +278,6 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel4,
             this.toolStripStatusLabel3,
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2});
@@ -337,18 +286,6 @@
             this.statusStrip1.Size = new System.Drawing.Size(834, 26);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel4
-            // 
-            this.toolStripStatusLabel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
-            this.toolStripStatusLabel4.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
-            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.toolStripStatusLabel4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripStatusLabel4.ForeColor = System.Drawing.Color.Blue;
-            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(108, 21);
-            this.toolStripStatusLabel4.Text = "不及格（已补考）";
             // 
             // toolStripStatusLabel3
             // 
@@ -359,8 +296,8 @@
             this.toolStripStatusLabel3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripStatusLabel3.ForeColor = System.Drawing.Color.Red;
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(108, 21);
-            this.toolStripStatusLabel3.Text = "不及格（未补考）";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(48, 21);
+            this.toolStripStatusLabel3.Text = "不及格";
             // 
             // toolStripStatusLabel1
             // 
@@ -506,8 +443,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox comboBox_Course;
-        private System.Windows.Forms.ComboBox comboBox_Type;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DataGridView gridView_Score;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
@@ -516,13 +451,10 @@
         private System.Windows.Forms.ToolStripButton toolStripButton_Clear;
         private System.Windows.Forms.ToolStripButton toolStripButton_Refresh;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.RadioButton radioButton_AllDisplay;
-        private System.Windows.Forms.RadioButton radioButton_NoReTest;
         private System.Windows.Forms.RadioButton radioButton_Pass;
         private System.Windows.Forms.ToolStripButton toolStripButton_ScoreTotalChart;
-        private System.Windows.Forms.Label label_Mark;
         private System.Windows.Forms.ComboBox comboBox_CourName;
     }
 }

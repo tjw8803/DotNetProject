@@ -30,19 +30,16 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScoreInput));
             this.panel_Full = new System.Windows.Forms.Panel();
+            this.comboBox_CourName = new System.Windows.Forms.ComboBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox_Class = new System.Windows.Forms.ComboBox();
             this.comboBox_Course = new System.Windows.Forms.ComboBox();
-            this.comboBox_Type = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel_Buttom = new System.Windows.Forms.Panel();
             this.btn_Cancle = new System.Windows.Forms.Button();
             this.btn_OK = new System.Windows.Forms.Button();
-            this.label_Mark = new System.Windows.Forms.Label();
-            this.comboBox_CourName = new System.Windows.Forms.ComboBox();
             this.panel_Full.SuspendLayout();
             this.panel_Buttom.SuspendLayout();
             this.SuspendLayout();
@@ -50,15 +47,12 @@
             // panel_Full
             // 
             this.panel_Full.BackColor = System.Drawing.Color.Lavender;
-            this.panel_Full.Controls.Add(this.label_Mark);
             this.panel_Full.Controls.Add(this.comboBox_CourName);
             this.panel_Full.Controls.Add(this.dateTimePicker1);
             this.panel_Full.Controls.Add(this.label4);
             this.panel_Full.Controls.Add(this.label3);
             this.panel_Full.Controls.Add(this.comboBox_Class);
             this.panel_Full.Controls.Add(this.comboBox_Course);
-            this.panel_Full.Controls.Add(this.comboBox_Type);
-            this.panel_Full.Controls.Add(this.label2);
             this.panel_Full.Controls.Add(this.label1);
             this.panel_Full.Controls.Add(this.panel_Buttom);
             this.panel_Full.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -66,6 +60,16 @@
             this.panel_Full.Name = "panel_Full";
             this.panel_Full.Size = new System.Drawing.Size(379, 268);
             this.panel_Full.TabIndex = 0;
+            // 
+            // comboBox_CourName
+            // 
+            this.comboBox_CourName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_CourName.FormattingEnabled = true;
+            this.comboBox_CourName.Location = new System.Drawing.Point(117, 40);
+            this.comboBox_CourName.Name = "comboBox_CourName";
+            this.comboBox_CourName.Size = new System.Drawing.Size(104, 23);
+            this.comboBox_CourName.TabIndex = 1;
+            this.comboBox_CourName.SelectedIndexChanged += new System.EventHandler(this.comboBox_CourName_SelectedIndexChanged);
             // 
             // dateTimePicker1
             // 
@@ -110,25 +114,6 @@
             this.comboBox_Course.Size = new System.Drawing.Size(175, 23);
             this.comboBox_Course.TabIndex = 2;
             // 
-            // comboBox_Type
-            // 
-            this.comboBox_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_Type.FormattingEnabled = true;
-            this.comboBox_Type.Location = new System.Drawing.Point(117, 39);
-            this.comboBox_Type.Name = "comboBox_Type";
-            this.comboBox_Type.Size = new System.Drawing.Size(104, 23);
-            this.comboBox_Type.TabIndex = 0;
-            this.comboBox_Type.SelectedIndexChanged += new System.EventHandler(this.comboBox_Type_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(28, 88);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(37, 15);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "章节";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -136,7 +121,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 15);
             this.label1.TabIndex = 1;
-            this.label1.Text = "类型";
+            this.label1.Text = "科目";
             // 
             // panel_Buttom
             // 
@@ -168,27 +153,6 @@
             this.btn_OK.UseVisualStyleBackColor = true;
             this.btn_OK.Click += new System.EventHandler(this.btn_OK_Click);
             // 
-            // label_Mark
-            // 
-            this.label_Mark.AutoSize = true;
-            this.label_Mark.Location = new System.Drawing.Point(225, 43);
-            this.label_Mark.Name = "label_Mark";
-            this.label_Mark.Size = new System.Drawing.Size(23, 15);
-            this.label_Mark.TabIndex = 8;
-            this.label_Mark.Text = "=>";
-            this.label_Mark.Visible = false;
-            // 
-            // comboBox_CourName
-            // 
-            this.comboBox_CourName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_CourName.FormattingEnabled = true;
-            this.comboBox_CourName.Location = new System.Drawing.Point(252, 39);
-            this.comboBox_CourName.Name = "comboBox_CourName";
-            this.comboBox_CourName.Size = new System.Drawing.Size(104, 23);
-            this.comboBox_CourName.TabIndex = 1;
-            this.comboBox_CourName.Visible = false;
-            this.comboBox_CourName.SelectedIndexChanged += new System.EventHandler(this.comboBox_CourName_SelectedIndexChanged);
-            // 
             // ScoreInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -215,8 +179,6 @@
         #endregion
 
         private System.Windows.Forms.Panel panel_Full;
-        private System.Windows.Forms.ComboBox comboBox_Type;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel_Buttom;
         private System.Windows.Forms.Button btn_Cancle;
@@ -226,7 +188,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox_Class;
         private System.Windows.Forms.ComboBox comboBox_Course;
-        private System.Windows.Forms.Label label_Mark;
         private System.Windows.Forms.ComboBox comboBox_CourName;
     }
 }

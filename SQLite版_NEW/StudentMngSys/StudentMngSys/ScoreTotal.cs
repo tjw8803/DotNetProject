@@ -60,15 +60,9 @@ namespace TJWForms
             param.StuID = this.tb_StuID.Text.Trim();
             param.SearchScoreByStuID = true;
             // 类型
-            param.ExamTypeID = this.comboBox_Type.SelectedIndex - 1;
-            // 章节
-            ListItem liPassage = (ListItem)this.comboBox_Course.SelectedItem;
-            int courseID = 0;
-            if (liPassage != null)
-            {
-                Int32.TryParse(liPassage.Key, out courseID);
-            }
-            param.CourseID = courseID;
+            param.ExamTypeID = 1;
+            // 考试批次
+            param.CourseID = this.comboBox_Course.SelectedIndex + 1; ;
             // 科目
             int courseNewID = 1;
             if (param.ExamTypeID == 1)
@@ -274,11 +268,6 @@ namespace TJWForms
                            this._scoreDataSet.ScoreTable.DefaultView.RowFilter = "Pass=1";
                         }
                         break;
-                    case "radioButton_NoReTest":
-                        {
-                            this._scoreDataSet.ScoreTable.DefaultView.RowFilter = "Pass=1 AND TestAgain=0";
-                        }
-                        break;
                     case "radioButton_AllDisplay":
                         {
                             this._scoreDataSet.ScoreTable.DefaultView.RowFilter = "";
@@ -419,15 +408,21 @@ namespace TJWForms
                 return;
             }
 
-            // 类型取得
-            this.comboBox_Type.Items.Add(new ListItem("0", "全部"));
-            Dictionary<string, string> examDic = DataWork.GetExamType();
-            foreach (KeyValuePair<string, string> pair in examDic)
+            // 考试批次
+            ReadExamInfo readExamInfo = new ReadExamInfo();
+            readExamInfo.Deserialize();
+            if (readExamInfo.UserSetting != null &&
+                readExamInfo.UserSetting.ExamItemList != null &&
+                readExamInfo.UserSetting.ExamItemList.Count > 0)
             {
-                int key = Int32.Parse(pair.Key) + 1;
-                this.comboBox_Type.Items.Add(new ListItem(key.ToString(), pair.Value));
+                int index = 0;
+                foreach (string str in readExamInfo.UserSetting.ExamItemList)
+                {
+                    this.comboBox_Course.Items.Add(new ListItem(index.ToString(), str));
+                    index++;
+                }
+                this.comboBox_Course.SelectedIndex = 0;
             }
-            this.comboBox_Type.SelectedIndex = 0;
 
             // 课程取得
             errMsg = string.Empty;
@@ -441,6 +436,7 @@ namespace TJWForms
                 {
                     this.comboBox_CourName.Items.Add(new ListItem(courseInfo.CourseID.ToString(), courseInfo.CourseName));
                 }
+                this.comboBox_CourName.SelectedIndex = 0;
             }
 
             // 平均分，分数段人数查询
@@ -508,7 +504,7 @@ namespace TJWForms
             columns[this._scoreDataSet.ScoreTable.CourseNewNameColumn.ColumnName].DisplayIndex = index++;
 
             columns[this._scoreDataSet.ScoreTable.CourseNameColumn.ColumnName].HeaderText = "章节";
-            columns[this._scoreDataSet.ScoreTable.CourseNameColumn.ColumnName].Visible = true;
+            columns[this._scoreDataSet.ScoreTable.CourseNameColumn.ColumnName].Visible = false;
             columns[this._scoreDataSet.ScoreTable.CourseNameColumn.ColumnName].DisplayIndex = index++;
 
             columns[this._scoreDataSet.ScoreTable.RankColumn.ColumnName].HeaderText = "名次";
@@ -609,49 +605,10 @@ namespace TJWForms
             }
         }
 
-        private void comboBox_Type_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            switch (this.comboBox_Type.SelectedIndex)
-            {
-                case 1:
-                case 2:
-                    if (this.comboBox_Type.SelectedIndex == 2)
-                    {
-                        this.label_Mark.Visible = true;
-                        this.comboBox_CourName.Visible = true;
-
-                        if (this.comboBox_CourName.Items.Count > 0)
-                        {
-                            this.comboBox_CourName.SelectedIndex = 0;
-                        }
-                    }
-                    else
-                    {
-                        this.label_Mark.Visible = false;
-                        this.comboBox_CourName.Visible = false;
-
-                        // 章节取得
-                        GetCourseInfo();
-                    }
-
-                    this.comboBox_Course.Enabled = true;
-
-                    break;
-                case 0:
-                    {
-                        this.comboBox_Course.Enabled = false;
-                        this.comboBox_Course.Items.Clear();
-                        this.label_Mark.Visible = false;
-                        this.comboBox_CourName.Visible = false;
-                    }
-                    break;
-            }
-        }
-
         private void comboBox_CourName_SelectedIndexChanged(object sender, EventArgs e)
         { 
             // 章节取得
-            GetCourseInfo();
+            //GetCourseInfo();
         }
 
         private void GetCourseInfo()
@@ -660,11 +617,8 @@ namespace TJWForms
             this.comboBox_Course.Items.Add(new ListItem("0", "全部"));
             string errMsg = string.Empty;
             DataWork param = new DataWork();
-            param.ExamTypeID = this.comboBox_Type.SelectedIndex - 1;
-            if (this.comboBox_Type.SelectedIndex == 2)
-            {
-                param.CourseNewID = this.comboBox_CourName.SelectedIndex + 1;
-            }
+            param.ExamTypeID = 1;
+            param.CourseNewID = this.comboBox_CourName.SelectedIndex + 1;
             List<DataWork> examTypeInfoList = null;
             int status = _dataAccess.GetExamTypeInfo(param, out examTypeInfoList, out errMsg);
 
@@ -766,7 +720,6 @@ namespace TJWForms
             this.tb_StuID.Clear();
             this.tb_StuName.Clear();
             this.tb_ClassName.Clear();
-            this.comboBox_Type.SelectedIndex = 0;
 
             this._scoreDataSet.ScoreTable.Clear();
             SetToolButtonEnable(false);
