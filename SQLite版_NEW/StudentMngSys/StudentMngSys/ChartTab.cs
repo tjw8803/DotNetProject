@@ -202,7 +202,14 @@ namespace TJWForms
             chart1.ChartAreas["ChartArea1"].AxisY.MajorGrid.LineColor = Color.LightGray;
             //设置坐标轴名称
             chart1.ChartAreas["ChartArea1"].AxisX.TitleFont = new Font("Arial Unicode MS", float.Parse("10"), FontStyle.Regular);
-            chart1.ChartAreas["ChartArea1"].AxisX.Title = "章节";
+            if (mode == 0)
+            {
+                chart1.ChartAreas["ChartArea1"].AxisX.Title = "考试批次";
+            }
+            else
+            {
+                chart1.ChartAreas["ChartArea1"].AxisX.Title = "学生";
+            }
             chart1.ChartAreas["ChartArea1"].AxisX.TitleAlignment = StringAlignment.Far;
             chart1.ChartAreas["ChartArea1"].AxisY.TitleFont = new Font("Arial Unicode MS", float.Parse("10"), FontStyle.Regular);
             chart1.ChartAreas["ChartArea1"].AxisY.Title = "平均分";
@@ -246,7 +253,14 @@ namespace TJWForms
             chart1.Series["scoreAvg"].IsValueShownAsLabel = true;
 
             chart1.Series["scoreAvg"].LegendText = "平均分";
-            chart1.Series["scoreAvg"].ToolTip = "章节：#AXISLABEL/平均分：#VAL{F2}";//鼠标移动到上面显示的文字
+            if (mode == 0)
+            {
+                chart1.Series["scoreAvg"].ToolTip = "考试批次：#AXISLABEL/平均分：#VAL{F2}";//鼠标移动到上面显示的文字
+            }
+            else
+            {
+                chart1.Series["scoreAvg"].ToolTip = "学生：#AXISLABEL/平均分：#VAL{F2}";//鼠标移动到上面显示的文字
+            }
 
             //设置标记图案
             chart1.Series["scoreAvg"].MarkerStyle = MarkerStyle.Square;
@@ -315,7 +329,7 @@ namespace TJWForms
             chart1.ChartAreas["ChartArea1"].AxisY.MajorGrid.LineColor = Color.LightGray;
             //设置坐标轴名称
             chart1.ChartAreas["ChartArea1"].AxisX.TitleFont = new Font("Arial Unicode MS", float.Parse("10"), FontStyle.Regular);
-            chart1.ChartAreas["ChartArea1"].AxisX.Title = "章节";
+            chart1.ChartAreas["ChartArea1"].AxisX.Title = "考试批次";
             chart1.ChartAreas["ChartArea1"].AxisX.TitleAlignment = StringAlignment.Far;
             chart1.ChartAreas["ChartArea1"].AxisY.TitleFont = new Font("Arial Unicode MS", float.Parse("10"), FontStyle.Regular);
             chart1.ChartAreas["ChartArea1"].AxisY.Title = "成绩";
@@ -372,7 +386,7 @@ namespace TJWForms
             chart1.Series["score"].YAxisType = AxisType.Primary;
 
             chart1.Series["score"].LegendText = "分数";
-            chart1.Series["score"].ToolTip = "章节：#AXISLABEL/分数：#VAL{F2}";//鼠标移动到上面显示的文字  
+            chart1.Series["score"].ToolTip = "考试批次：#AXISLABEL/分数：#VAL{F2}";//鼠标移动到上面显示的文字  
 
             //设置标记图案
             chart1.Series["score"].MarkerStyle = MarkerStyle.Triangle;
@@ -400,7 +414,7 @@ namespace TJWForms
             chart1.Series["scoreAvg"].YAxisType = AxisType.Secondary;
 
             chart1.Series["scoreAvg"].LegendText = "平均分";
-            chart1.Series["scoreAvg"].ToolTip = "章节：#AXISLABEL/平均分：#VAL{F2}";//鼠标移动到上面显示的文字
+            chart1.Series["scoreAvg"].ToolTip = "考试批次：#AXISLABEL/平均分：#VAL{F2}";//鼠标移动到上面显示的文字
 
             //设置标记图案
             chart1.Series["scoreAvg"].MarkerStyle = MarkerStyle.Square;

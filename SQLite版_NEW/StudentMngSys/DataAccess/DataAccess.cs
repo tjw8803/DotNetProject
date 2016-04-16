@@ -767,12 +767,12 @@ namespace TJWCommon
                 SQLiteHelper.Conn.Open();
                 SQLiteCommand command = SQLiteHelper.Conn.CreateCommand();
 
-                string sqlText = "SELECT SCO.classID, CLS.className, SCO.stuID, STU.stuName, SCO.typeID, SCO.courseDetailID, EXAM.courseDetailName, SCO.score, SCO.isPass, SCO.newScore, SCO.testAgain, SCO.examDate, SCO.courseID, COUR.courseName " + Environment.NewLine +
+                string sqlText = "SELECT SCO.classID, CLS.className, SCO.stuID, STU.stuName, SCO.typeID, SCO.courseDetailID, SCO.score, SCO.isPass, SCO.newScore, SCO.testAgain, SCO.examDate, SCO.courseID, COUR.courseName " + Environment.NewLine +
                     "FROM tb_Score AS SCO " + Environment.NewLine +
                     "LEFT JOIN tb_Student AS STU ON STU.stuID = SCO.stuID AND STU.classID = SCO.classID " + Environment.NewLine +
                     "LEFT JOIN tb_Class AS CLS ON CLS.classID = SCO.classID " + Environment.NewLine +
-                    "LEFT JOIN tb_CourseDetail AS EXAM ON EXAM.typeID = SCO.typeID AND EXAM.courseID = SCO.courseID AND EXAM.courseDetailID = SCO.courseDetailID " + Environment.NewLine +
-                    "LEFT JOIN tb_Course AS COUR ON COUR.courseID = EXAM.courseID " + Environment.NewLine +
+                    //"LEFT JOIN tb_CourseDetail AS EXAM ON EXAM.typeID = SCO.typeID AND EXAM.courseID = SCO.courseID AND EXAM.courseDetailID = SCO.courseDetailID " + Environment.NewLine +
+                    "LEFT JOIN tb_Course AS COUR ON COUR.courseID = SCO.courseID " + Environment.NewLine +
                     "WHERE 1=1 ";
 
                 SQLiteParameter[] para = null;
@@ -820,7 +820,7 @@ namespace TJWCommon
 
                 para = paraList.ToArray();
 
-                sqlText += "ORDER BY SCO.classID, SCO.stuID, SCO.typeID, SCO.courseID, EXAM.courseDetailName";
+                sqlText += "ORDER BY SCO.classID, SCO.stuID, SCO.typeID, SCO.courseID, SCO.courseDetailID";
 
                 myReader = SQLiteHelper.ExecuteReader(command, sqlText, para);
 
@@ -835,7 +835,7 @@ namespace TJWCommon
                     stuInfo.CourseNewID = SqlOperation.GetInt32(myReader, myReader.GetOrdinal("courseID"));
                     stuInfo.CourseNewName = SqlOperation.GetString(myReader, myReader.GetOrdinal("courseName"));
                     stuInfo.CourseID = SqlOperation.GetInt32(myReader, myReader.GetOrdinal("courseDetailID"));
-                    stuInfo.CourseName = SqlOperation.GetString(myReader, myReader.GetOrdinal("courseDetailName"));
+                    //stuInfo.CourseName = SqlOperation.GetString(myReader, myReader.GetOrdinal("courseDetailName"));
                     stuInfo.Score = SqlOperation.GetDouble(myReader, myReader.GetOrdinal("score"));
                     stuInfo.Pass = SqlOperation.GetInt32(myReader, myReader.GetOrdinal("isPass"));
                     stuInfo.Score2 = SqlOperation.GetDouble(myReader, myReader.GetOrdinal("newScore"));
@@ -895,8 +895,8 @@ namespace TJWCommon
 
                 if (param.SearchMode == 0)
                 {
-                    sqlText += ",SUB.courseDetailID " + Environment.NewLine +
-                    ",EXAM.courseDetailName " + Environment.NewLine;
+                    sqlText += ",SUB.courseDetailID " + Environment.NewLine;
+                    //",EXAM.courseDetailName " + Environment.NewLine;
                 }
                 else
                 {
@@ -960,7 +960,7 @@ namespace TJWCommon
                 "LEFT JOIN tb_Class AS CLS ON CLS.classID = SUB.classID " + Environment.NewLine;
                     if (param.SearchMode == 0)
                     {
-                        sqlText += "LEFT JOIN tb_CourseDetail AS EXAM ON EXAM.typeID = SUB.typeID AND EXAM.courseID = SUB.courseID AND EXAM.courseDetailID = SUB.courseDetailID " + Environment.NewLine;
+                        //sqlText += "LEFT JOIN tb_CourseDetail AS EXAM ON EXAM.typeID = SUB.typeID AND EXAM.courseID = SUB.courseID AND EXAM.courseDetailID = SUB.courseDetailID " + Environment.NewLine;
                     }
                     else
                     {
@@ -995,7 +995,7 @@ namespace TJWCommon
                 sqlText += "ORDER BY SUB.classID, SUB.typeID, SUB.courseID";
                 if (param.SearchMode == 0)
                 {
-                    sqlText += ", EXAM.courseDetailName";
+                    sqlText += ", SUB.courseDetailID";
                 }
                 else
                 {
@@ -1014,7 +1014,7 @@ namespace TJWCommon
                     if (param.SearchMode == 0)
                     {
                         stuInfo.CourseID = SqlOperation.GetInt32(myReader, myReader.GetOrdinal("courseDetailID"));
-                        stuInfo.CourseName = SqlOperation.GetString(myReader, myReader.GetOrdinal("courseDetailName"));
+                        //stuInfo.CourseName = SqlOperation.GetString(myReader, myReader.GetOrdinal("courseDetailName"));
                     }
                     else
                     {

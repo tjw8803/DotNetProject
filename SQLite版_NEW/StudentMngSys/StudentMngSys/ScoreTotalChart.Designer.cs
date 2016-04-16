@@ -57,8 +57,6 @@
             this.btn_Total = new System.Windows.Forms.Button();
             this.groupBox_Class = new System.Windows.Forms.GroupBox();
             this.comboBox_Class = new System.Windows.Forms.ComboBox();
-            this.groupBox_ExamType = new System.Windows.Forms.GroupBox();
-            this.comboBox_Type = new System.Windows.Forms.ComboBox();
             this.panel_Full.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -75,7 +73,6 @@
             this.groupBox1.SuspendLayout();
             this.groupBox_TotalType.SuspendLayout();
             this.groupBox_Class.SuspendLayout();
-            this.groupBox_ExamType.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel_Full
@@ -135,7 +132,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(576, 535);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "章节平均分统计图";
+            this.tabPage2.Text = "考试批次平均分统计图";
             // 
             // tabControl_AvgTotal2
             // 
@@ -203,7 +200,6 @@
             this.panel_Left.Controls.Add(this.groupBox_TotalType);
             this.panel_Left.Controls.Add(this.btn_Total);
             this.panel_Left.Controls.Add(this.groupBox_Class);
-            this.panel_Left.Controls.Add(this.groupBox_ExamType);
             this.panel_Left.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel_Left.Location = new System.Drawing.Point(0, 0);
             this.panel_Left.Name = "panel_Left";
@@ -213,7 +209,7 @@
             // panel_Year
             // 
             this.panel_Year.Controls.Add(this.groupBox2);
-            this.panel_Year.Location = new System.Drawing.Point(0, 272);
+            this.panel_Year.Location = new System.Drawing.Point(0, 212);
             this.panel_Year.Name = "panel_Year";
             this.panel_Year.Size = new System.Drawing.Size(200, 93);
             this.panel_Year.TabIndex = 7;
@@ -276,7 +272,7 @@
             // 
             this.panel_Group.Controls.Add(this.groupBox_Student);
             this.panel_Group.Controls.Add(this.groupBox_Course);
-            this.panel_Group.Location = new System.Drawing.Point(0, 272);
+            this.panel_Group.Location = new System.Drawing.Point(0, 212);
             this.panel_Group.Name = "panel_Group";
             this.panel_Group.Size = new System.Drawing.Size(200, 69);
             this.panel_Group.TabIndex = 6;
@@ -309,7 +305,7 @@
             this.groupBox_Course.Size = new System.Drawing.Size(182, 60);
             this.groupBox_Course.TabIndex = 3;
             this.groupBox_Course.TabStop = false;
-            this.groupBox_Course.Text = "章节";
+            this.groupBox_Course.Text = "考试批次";
             // 
             // comboBox_Course
             // 
@@ -323,7 +319,7 @@
             // panel_Course
             // 
             this.panel_Course.Controls.Add(this.groupBox1);
-            this.panel_Course.Location = new System.Drawing.Point(0, 204);
+            this.panel_Course.Location = new System.Drawing.Point(0, 144);
             this.panel_Course.Name = "panel_Course";
             this.panel_Course.Size = new System.Drawing.Size(200, 69);
             this.panel_Course.TabIndex = 5;
@@ -364,7 +360,7 @@
             this.comboBox_TotalType.FormattingEnabled = true;
             this.comboBox_TotalType.Items.AddRange(new object[] {
             "分数段人数统计图",
-            "章节平均分统计图",
+            "考试批次平均分统计图",
             "个人成绩统计图",
             "学年度成绩统计图"});
             this.comboBox_TotalType.Location = new System.Drawing.Point(4, 23);
@@ -404,27 +400,6 @@
             this.comboBox_Class.TabIndex = 1;
             this.comboBox_Class.SelectedIndexChanged += new System.EventHandler(this.comboBox_Class_SelectedIndexChanged);
             // 
-            // groupBox_ExamType
-            // 
-            this.groupBox_ExamType.Controls.Add(this.comboBox_Type);
-            this.groupBox_ExamType.Location = new System.Drawing.Point(9, 141);
-            this.groupBox_ExamType.Name = "groupBox_ExamType";
-            this.groupBox_ExamType.Size = new System.Drawing.Size(182, 60);
-            this.groupBox_ExamType.TabIndex = 2;
-            this.groupBox_ExamType.TabStop = false;
-            this.groupBox_ExamType.Text = "类型";
-            // 
-            // comboBox_Type
-            // 
-            this.comboBox_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_Type.Enabled = false;
-            this.comboBox_Type.FormattingEnabled = true;
-            this.comboBox_Type.Location = new System.Drawing.Point(4, 23);
-            this.comboBox_Type.Name = "comboBox_Type";
-            this.comboBox_Type.Size = new System.Drawing.Size(175, 20);
-            this.comboBox_Type.TabIndex = 2;
-            this.comboBox_Type.SelectedIndexChanged += new System.EventHandler(this.comboBox_Type_SelectedIndexChanged);
-            // 
             // ScoreTotalChart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -453,7 +428,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox_TotalType.ResumeLayout(false);
             this.groupBox_Class.ResumeLayout(false);
-            this.groupBox_ExamType.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -464,9 +438,7 @@
         private System.Windows.Forms.Panel panel_Left;
         //private System.Windows.Forms.TabControl tabControl1;
         private MyTabControl tabControl_AvgTotal1;
-        private System.Windows.Forms.GroupBox groupBox_ExamType;
         private System.Windows.Forms.GroupBox groupBox_Course;
-        private System.Windows.Forms.ComboBox comboBox_Type;
         private System.Windows.Forms.ComboBox comboBox_Course;
         private System.Windows.Forms.GroupBox groupBox_Class;
         private System.Windows.Forms.ComboBox comboBox_Class;

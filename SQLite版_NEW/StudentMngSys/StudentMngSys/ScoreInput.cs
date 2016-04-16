@@ -26,11 +26,9 @@ namespace TJWForms
 
         private void btn_OK_Click(object sender, EventArgs e)
         {
-            int examType = this.comboBox_Type.SelectedIndex;
+            int examType = 1;
             //章节编号
-            int courseID = 1;
-            ListItem liPassage = (ListItem)this.comboBox_Course.SelectedItem;
-            Int32.TryParse(liPassage.Key, out courseID);
+            int courseID = this.comboBox_Course.SelectedIndex + 1;
             //课程
             int courseNewID = 1;
             ListItem liCourse = (ListItem)this.comboBox_CourName.SelectedItem;
@@ -42,11 +40,6 @@ namespace TJWForms
             ListItem liClass = (ListItem)this.comboBox_Class.SelectedItem;
             string classID = liClass.Key;
             DateTime examDate = this.dateTimePicker1.Value;
-
-            #region Log
-            string tips = string.Format("{0}-{1}-{2}", this.comboBox_Type.SelectedItem, this.comboBox_CourName.SelectedItem, 
-                this.comboBox_Class.SelectedItem);
-            #endregion
 
             StartInputScore startIpnut = new StartInputScore(examType, courseNewID, courseID, classID, examDate);
             startIpnut.ClassName = this.comboBox_Class.SelectedItem.ToString();
@@ -60,14 +53,6 @@ namespace TJWForms
 
         private void ScoreInput_Load(object sender, EventArgs e)
         {
-            // 类型取得
-            Dictionary<string, string> examDic = DataWork.GetExamType();
-            foreach (KeyValuePair<string, string> pair in examDic)
-            {
-                this.comboBox_Type.Items.Add(new ListItem(pair.Key, pair.Value));
-            }
-            this.comboBox_Type.SelectedIndex = 0;
-
             // 班级取得
             string errMsg = string.Empty;
             DataWork param = new DataWork();
@@ -98,6 +83,23 @@ namespace TJWForms
                 {
                     this.comboBox_CourName.Items.Add(new ListItem(courseInfo.CourseID.ToString(), courseInfo.CourseName));
                 }
+                this.comboBox_CourName.SelectedIndex = 0;
+            }
+
+            // 考试批次
+            ReadExamInfo readExamInfo = new ReadExamInfo();
+            readExamInfo.Deserialize();
+            if (readExamInfo.UserSetting != null &&
+                readExamInfo.UserSetting.ExamItemList != null &&
+                readExamInfo.UserSetting.ExamItemList.Count > 0)
+            {
+                int index = 0;
+                foreach (string str in readExamInfo.UserSetting.ExamItemList)
+                {
+                    this.comboBox_Course.Items.Add(new ListItem(index.ToString(), str));
+                    index++;
+                }
+                this.comboBox_Course.SelectedIndex = 0;
             }
 
             _formLoaded = true;
@@ -108,39 +110,10 @@ namespace TJWForms
             this.Close();
         }
 
-        private void comboBox_Type_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.comboBox_Course.Enabled = true;
-
-            switch (this.comboBox_Type.SelectedIndex)
-            {
-                case 0:
-                    {
-                        this.label_Mark.Visible = false;
-                        this.comboBox_CourName.Visible = false;
-
-                        // 章节取得
-                        GetCourseInfo();
-                    }
-                    break;
-                case 1:
-                    {
-                        this.label_Mark.Visible = true;
-                        this.comboBox_CourName.Visible = true;
-
-                        if (this.comboBox_CourName.Items.Count > 0)
-                        {
-                            this.comboBox_CourName.SelectedIndex = 0;
-                        }
-                    }
-                    break;
-            }
-        }
-
         private void comboBox_CourName_SelectedIndexChanged(object sender, EventArgs e)
         {
             // 章节取得
-            GetCourseInfo();
+            //GetCourseInfo();
         }
 
         private void GetCourseInfo()
@@ -148,11 +121,8 @@ namespace TJWForms
             comboBox_Course.Items.Clear();
             string errMsg = string.Empty;
             DataWork param = new DataWork();
-            param.ExamTypeID = this.comboBox_Type.SelectedIndex;
-            if (this.comboBox_Type.SelectedIndex == 1)
-            {
-                param.CourseNewID = this.comboBox_CourName.SelectedIndex + 1;
-            }
+            param.ExamTypeID = 1;
+            param.CourseNewID = this.comboBox_CourName.SelectedIndex + 1;
             List<DataWork> examTypeInfoList = null;
             int status = _dataAccess.GetExamTypeInfo(param, out examTypeInfoList, out errMsg);
 
@@ -169,24 +139,6 @@ namespace TJWForms
             }
             else
             {
-                Dictionary<string, string> examDic = DataWork.GetExamType();
-                string tips = "章节没有设置，请先设置章节！";
-                string dicValue = examDic[this.comboBox_Type.SelectedIndex.ToString()];
-                string message = dicValue + tips;
-                if (this.comboBox_Type.SelectedIndex == 1)
-                {
-                    message = this.comboBox_CourName.SelectedItem + tips;
-                }
-                MessageBox.Show(this, message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
-                if (!_formLoaded)
-                {
-                    this.Close();
-                }
-                else
-                {
-                    this.comboBox_Type.SelectedIndex = 0;
-                }
             }
         }
 

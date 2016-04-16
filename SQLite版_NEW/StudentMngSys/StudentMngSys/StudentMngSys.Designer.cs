@@ -40,7 +40,6 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_ScoreTotalChart = new System.Windows.Forms.Button();
@@ -59,6 +58,9 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer_Datetime = new System.Windows.Forms.Timer(this.components);
+            this.btn_Total2 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel_All.SuspendLayout();
             this.panel_Full.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -178,7 +180,9 @@
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.label3);
+            this.panel3.Controls.Add(this.label5);
+            this.panel3.Controls.Add(this.label4);
+            this.panel3.Controls.Add(this.btn_Total2);
             this.panel3.Controls.Add(this.label2);
             this.panel3.Controls.Add(this.label1);
             this.panel3.Controls.Add(this.btn_ScoreTotalChart);
@@ -190,34 +194,26 @@
             this.panel3.Size = new System.Drawing.Size(610, 435);
             this.panel3.TabIndex = 4;
             // 
-            // label3
-            // 
-            this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label3.Location = new System.Drawing.Point(130, 255);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(213, 2);
-            this.label3.TabIndex = 6;
-            // 
             // label2
             // 
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label2.Location = new System.Drawing.Point(130, 148);
+            this.label2.Location = new System.Drawing.Point(266, 65);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(2, 109);
+            this.label2.Size = new System.Drawing.Size(2, 226);
             this.label2.TabIndex = 5;
             // 
             // label1
             // 
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label1.Location = new System.Drawing.Point(209, 115);
+            this.label1.Location = new System.Drawing.Point(266, 65);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(137, 2);
+            this.label1.Size = new System.Drawing.Size(80, 2);
             this.label1.TabIndex = 4;
             // 
             // btn_ScoreTotalChart
             // 
             this.btn_ScoreTotalChart.Image = ((System.Drawing.Image)(resources.GetObject("btn_ScoreTotalChart.Image")));
-            this.btn_ScoreTotalChart.Location = new System.Drawing.Point(353, 224);
+            this.btn_ScoreTotalChart.Location = new System.Drawing.Point(345, 147);
             this.btn_ScoreTotalChart.Name = "btn_ScoreTotalChart";
             this.btn_ScoreTotalChart.Size = new System.Drawing.Size(125, 60);
             this.btn_ScoreTotalChart.TabIndex = 3;
@@ -229,7 +225,7 @@
             // btn_ScoreInput
             // 
             this.btn_ScoreInput.Image = ((System.Drawing.Image)(resources.GetObject("btn_ScoreInput.Image")));
-            this.btn_ScoreInput.Location = new System.Drawing.Point(78, 85);
+            this.btn_ScoreInput.Location = new System.Drawing.Point(62, 147);
             this.btn_ScoreInput.Name = "btn_ScoreInput";
             this.btn_ScoreInput.Size = new System.Drawing.Size(125, 60);
             this.btn_ScoreInput.TabIndex = 1;
@@ -241,7 +237,7 @@
             // btn_ScoreTotal
             // 
             this.btn_ScoreTotal.Image = ((System.Drawing.Image)(resources.GetObject("btn_ScoreTotal.Image")));
-            this.btn_ScoreTotal.Location = new System.Drawing.Point(353, 85);
+            this.btn_ScoreTotal.Location = new System.Drawing.Point(345, 32);
             this.btn_ScoreTotal.Name = "btn_ScoreTotal";
             this.btn_ScoreTotal.Size = new System.Drawing.Size(125, 60);
             this.btn_ScoreTotal.TabIndex = 2;
@@ -376,6 +372,33 @@
             this.timer_Datetime.Interval = 1000;
             this.timer_Datetime.Tick += new System.EventHandler(this.timer_Datetime_Tick);
             // 
+            // btn_Total2
+            // 
+            this.btn_Total2.Image = ((System.Drawing.Image)(resources.GetObject("btn_Total2.Image")));
+            this.btn_Total2.Location = new System.Drawing.Point(345, 260);
+            this.btn_Total2.Name = "btn_Total2";
+            this.btn_Total2.Size = new System.Drawing.Size(125, 60);
+            this.btn_Total2.TabIndex = 7;
+            this.btn_Total2.Text = "分类汇总";
+            this.btn_Total2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_Total2.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label4.Location = new System.Drawing.Point(186, 176);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(160, 2);
+            this.label4.TabIndex = 8;
+            // 
+            // label5
+            // 
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label5.Location = new System.Drawing.Point(266, 290);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(80, 2);
+            this.label5.TabIndex = 9;
+            // 
             // StudentMngSys
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -438,12 +461,14 @@
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btn_ScoreTotalChart;
         private System.Windows.Forms.Button btn_ScoreInput;
         private System.Windows.Forms.Button btn_ScoreTotal;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btn_Total2;
     }
 }
 

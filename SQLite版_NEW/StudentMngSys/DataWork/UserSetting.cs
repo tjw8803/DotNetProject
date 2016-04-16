@@ -7,12 +7,7 @@ namespace TJWUIData
 {
     public class UserSetting
     {
-        private int _excelDataSource;
+        public List<string> ExamItemList { get; set; }
 
-        public int ExcelDataSource
-        {
-            get { return _excelDataSource; }
-            set { _excelDataSource = value; }
-        }
     }
 }

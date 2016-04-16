@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IFormOpreation", "IFormOpre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserControls", "UserControls\UserControls.csproj", "{6C05F2C6-3C38-4C37-A478-9F697E7A4A9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilsTests", "UtilsTests\UtilsTests.csproj", "{A3A6846D-7B75-4FCA-8F57-584893FAECD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{6C05F2C6-3C38-4C37-A478-9F697E7A4A9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C05F2C6-3C38-4C37-A478-9F697E7A4A9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C05F2C6-3C38-4C37-A478-9F697E7A4A9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3A6846D-7B75-4FCA-8F57-584893FAECD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3A6846D-7B75-4FCA-8F57-584893FAECD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3A6846D-7B75-4FCA-8F57-584893FAECD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3A6846D-7B75-4FCA-8F57-584893FAECD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
