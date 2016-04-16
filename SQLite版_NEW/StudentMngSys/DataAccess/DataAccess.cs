@@ -1049,6 +1049,125 @@ namespace TJWCommon
 
             return status;
         }
+
+        public int GetTotalScoreInfo(DataWork scoreInfo, out List<DataWork> scoreInfoList, out string message)
+        {
+            scoreInfoList = new List<DataWork>();
+            message = string.Empty;
+
+            int status = GetTotalScoreInfoProc(scoreInfo, ref scoreInfoList, ref message);
+            return status;
+        }
+
+        private int GetTotalScoreInfoProc(DataWork param, ref List<DataWork> scoreInfoList, ref string message)
+        {
+            int status = -1;
+
+            IDataReader myReader = null;
+
+            try
+            {
+                SQLiteHelper.Conn.Open();
+                SQLiteCommand command = SQLiteHelper.Conn.CreateCommand();
+
+                string sqlText = "SELECT " + Environment.NewLine;
+                sqlText += "SUB.[classID]" + Environment.NewLine;
+                sqlText += ",SUB.[className]" + Environment.NewLine;
+                sqlText += ",SUB.[stuID]" + Environment.NewLine;
+                sqlText += ",SUB.[stuName]" + Environment.NewLine;
+                sqlText += ",SUB.[courseDetailID]" + Environment.NewLine;
+                sqlText += ",SUB.score_1" + Environment.NewLine;
+                sqlText += ",SUB.score_2" + Environment.NewLine;
+                sqlText += ",SUB.score_3" + Environment.NewLine;
+                sqlText += ",SUB.score_4" + Environment.NewLine;
+                sqlText += ",SUB.score_5" + Environment.NewLine;
+                sqlText += ",SUB.score_6" + Environment.NewLine;
+                sqlText += ",SUB.score_7" + Environment.NewLine;
+                sqlText += ",SUB.score_8" + Environment.NewLine;
+                sqlText += ",SUB.score_9" + Environment.NewLine;
+                sqlText += ",(SUB.score_1 + SUB.score_2 + SUB.score_3 + SUB.score_4 + SUB.score_5 + SUB.score_6 + SUB.score_7 + SUB.score_8 + SUB.score_9) AS totalScore" + Environment.NewLine;
+                sqlText += "FROM (" + Environment.NewLine;
+                sqlText += "SELECT " + Environment.NewLine;
+                sqlText += "SCO.[classID] " + Environment.NewLine;
+                sqlText += ",CLS.[className]" + Environment.NewLine;
+                sqlText += ",SCO.[stuID]" + Environment.NewLine;
+                sqlText += ",STU.[stuName]" + Environment.NewLine;
+                sqlText += ",SCO.[courseDetailID]" + Environment.NewLine;
+                sqlText += ",MAX(CASE WHEN SCO.[courseID]=1 THEN SCO.[score] ELSE 0 END) AS score_1" + Environment.NewLine;
+                sqlText += ",MAX(CASE WHEN SCO.[courseID]=2 THEN SCO.[score] ELSE 0 END) AS score_2" + Environment.NewLine;
+                sqlText += ",MAX(CASE WHEN SCO.[courseID]=3 THEN SCO.[score] ELSE 0 END) AS score_3" + Environment.NewLine;
+                sqlText += ",MAX(CASE WHEN SCO.[courseID]=4 THEN SCO.[score] ELSE 0 END) AS score_4" + Environment.NewLine;
+                sqlText += ",MAX(CASE WHEN SCO.[courseID]=5 THEN SCO.[score] ELSE 0 END) AS score_5" + Environment.NewLine;
+                sqlText += ",MAX(CASE WHEN SCO.[courseID]=6 THEN SCO.[score] ELSE 0 END) AS score_6" + Environment.NewLine;
+                sqlText += ",MAX(CASE WHEN SCO.[courseID]=7 THEN SCO.[score] ELSE 0 END) AS score_7" + Environment.NewLine;
+                sqlText += ",MAX(CASE WHEN SCO.[courseID]=8 THEN SCO.[score] ELSE 0 END) AS score_8" + Environment.NewLine;
+                sqlText += ",MAX(CASE WHEN SCO.[courseID]=9 THEN SCO.[score] ELSE 0 END) AS score_9" + Environment.NewLine;
+                sqlText += "FROM tb_Score AS SCO" + Environment.NewLine;
+                sqlText += "LEFT JOIN tb_Course AS COUR" + Environment.NewLine;
+                sqlText += "ON COUR.[courseID]=SCO.[courseID]" + Environment.NewLine;
+                sqlText += "LEFT JOIN tb_Class AS CLS" + Environment.NewLine;
+                sqlText += "ON CLS.[classID]=SCO.[classID]" + Environment.NewLine;
+                sqlText += "LEFT JOIN tb_Student AS STU" + Environment.NewLine;
+                sqlText += "ON STU.[stuID]=SCO.[stuID]" + Environment.NewLine;
+                sqlText += "WHERE " + Environment.NewLine;
+                sqlText += "SCO.[typeID]=1" + Environment.NewLine;
+                sqlText += "AND SCO.[courseDetailID]=@courseDetailID" + Environment.NewLine;
+                sqlText += "AND SCO.[classID]=@classID" + Environment.NewLine;
+                sqlText += "GROUP BY SCO.[classID], SCO.[stuID], SCO.[courseDetailID]" + Environment.NewLine;
+                sqlText += ") AS SUB" + Environment.NewLine;
+
+                SQLiteParameter[] para = null;
+                List<SQLiteParameter> paraList = new List<SQLiteParameter>();
+
+                paraList.Add(new SQLiteParameter("@courseDetailID", param.CourseID));
+                paraList.Add(new SQLiteParameter("@classID", param.ClassID));
+
+                para = paraList.ToArray();
+
+                sqlText += "ORDER BY totalScore desc";
+
+                myReader = SQLiteHelper.ExecuteReader(command, sqlText, para);
+
+                while (myReader.Read())
+                {
+                    DataWork stuInfo = new DataWork();
+                    stuInfo.ClassID = SqlOperation.GetString(myReader, myReader.GetOrdinal("classID"));
+                    stuInfo.ClassName = SqlOperation.GetString(myReader, myReader.GetOrdinal("className"));
+                    stuInfo.StuID = SqlOperation.GetString(myReader, myReader.GetOrdinal("stuID"));
+                    stuInfo.StuName = SqlOperation.GetString(myReader, myReader.GetOrdinal("stuName"));
+                    stuInfo.CourseID = SqlOperation.GetInt32(myReader, myReader.GetOrdinal("courseDetailID"));
+                    stuInfo.Score_1 = SqlOperation.GetDouble(myReader, myReader.GetOrdinal("score_1"));
+                    stuInfo.Score_2 = SqlOperation.GetDouble(myReader, myReader.GetOrdinal("score_2"));
+                    stuInfo.Score_3 = SqlOperation.GetDouble(myReader, myReader.GetOrdinal("score_3"));
+                    stuInfo.Score_4 = SqlOperation.GetDouble(myReader, myReader.GetOrdinal("score_4"));
+                    stuInfo.Score_5 = SqlOperation.GetDouble(myReader, myReader.GetOrdinal("score_5"));
+                    stuInfo.Score_6 = SqlOperation.GetDouble(myReader, myReader.GetOrdinal("score_6"));
+                    stuInfo.Score_7 = SqlOperation.GetDouble(myReader, myReader.GetOrdinal("score_7"));
+                    stuInfo.Score_8 = SqlOperation.GetDouble(myReader, myReader.GetOrdinal("score_8"));
+                    stuInfo.Score_9 = SqlOperation.GetDouble(myReader, myReader.GetOrdinal("score_9"));
+                    stuInfo.TotalScore = SqlOperation.GetDouble(myReader, myReader.GetOrdinal("totalScore"));
+
+                    scoreInfoList.Add(stuInfo);
+                    status = 0;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+                status = -1;
+            }
+            finally
+            {
+                if (myReader != null)
+                {
+                    myReader.Close();
+                }
+                SQLiteHelper.Conn.Close();
+            }
+
+            return status;
+        }
         #endregion
 
         #region Write

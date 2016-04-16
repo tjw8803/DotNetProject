@@ -40,6 +40,9 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btn_Total2 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_ScoreTotalChart = new System.Windows.Forms.Button();
@@ -58,9 +61,6 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer_Datetime = new System.Windows.Forms.Timer(this.components);
-            this.btn_Total2 = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.panel_All.SuspendLayout();
             this.panel_Full.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -193,6 +193,34 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(610, 435);
             this.panel3.TabIndex = 4;
+            // 
+            // label5
+            // 
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label5.Location = new System.Drawing.Point(266, 290);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(80, 2);
+            this.label5.TabIndex = 9;
+            // 
+            // label4
+            // 
+            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label4.Location = new System.Drawing.Point(186, 176);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(160, 2);
+            this.label4.TabIndex = 8;
+            // 
+            // btn_Total2
+            // 
+            this.btn_Total2.Image = ((System.Drawing.Image)(resources.GetObject("btn_Total2.Image")));
+            this.btn_Total2.Location = new System.Drawing.Point(345, 260);
+            this.btn_Total2.Name = "btn_Total2";
+            this.btn_Total2.Size = new System.Drawing.Size(125, 60);
+            this.btn_Total2.TabIndex = 7;
+            this.btn_Total2.Text = "分类汇总";
+            this.btn_Total2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_Total2.UseVisualStyleBackColor = true;
+            this.btn_Total2.Click += new System.EventHandler(this.btn_Total2_Click);
             // 
             // label2
             // 
@@ -372,33 +400,6 @@
             this.timer_Datetime.Interval = 1000;
             this.timer_Datetime.Tick += new System.EventHandler(this.timer_Datetime_Tick);
             // 
-            // btn_Total2
-            // 
-            this.btn_Total2.Image = ((System.Drawing.Image)(resources.GetObject("btn_Total2.Image")));
-            this.btn_Total2.Location = new System.Drawing.Point(345, 260);
-            this.btn_Total2.Name = "btn_Total2";
-            this.btn_Total2.Size = new System.Drawing.Size(125, 60);
-            this.btn_Total2.TabIndex = 7;
-            this.btn_Total2.Text = "分类汇总";
-            this.btn_Total2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btn_Total2.UseVisualStyleBackColor = true;
-            // 
-            // label4
-            // 
-            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label4.Location = new System.Drawing.Point(186, 176);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(160, 2);
-            this.label4.TabIndex = 8;
-            // 
-            // label5
-            // 
-            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label5.Location = new System.Drawing.Point(266, 290);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(80, 2);
-            this.label5.TabIndex = 9;
-            // 
             // StudentMngSys
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -411,7 +412,6 @@
             this.Name = "StudentMngSys";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "学生成绩管理系统";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.StudentMngSys_FormClosed);
             this.Load += new System.EventHandler(this.StudentMngSys_Load);
             this.panel_All.ResumeLayout(false);
             this.panel_All.PerformLayout();

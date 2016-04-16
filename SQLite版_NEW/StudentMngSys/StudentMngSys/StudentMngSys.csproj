@@ -93,6 +93,12 @@
     <Compile Include="ScoreInput.Designer.cs">
       <DependentUpon>ScoreInput.cs</DependentUpon>
     </Compile>
+    <Compile Include="ScoreTotal2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScoreTotal2.Designer.cs">
+      <DependentUpon>ScoreTotal2.cs</DependentUpon>
+    </Compile>
     <Compile Include="ScoreTotal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ScoreInput.resx">
       <DependentUpon>ScoreInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScoreTotal2.resx">
+      <DependentUpon>ScoreTotal2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ScoreTotal.resx">
       <DependentUpon>ScoreTotal.cs</DependentUpon>

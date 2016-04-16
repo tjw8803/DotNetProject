@@ -26,6 +26,16 @@ namespace TJWUIData
 
         public int SearchMode { get; set; }
 
+        public double Score_1 { get; set; }
+        public double Score_2 { get; set; }
+        public double Score_3 { get; set; }
+        public double Score_4 { get; set; }
+        public double Score_5 { get; set; }
+        public double Score_6 { get; set; }
+        public double Score_7 { get; set; }
+        public double Score_8 { get; set; }
+        public double Score_9 { get; set; }
+
         public double OrigScore {  get;set; }
 
         public double TotalScore

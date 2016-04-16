@@ -405,7 +405,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "成绩统计";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ScoreTotal_FormClosed);
             this.Load += new System.EventHandler(this.ScoreTotal_Load);
             this.panel_Full.ResumeLayout(false);
             this.panel_Full.PerformLayout();

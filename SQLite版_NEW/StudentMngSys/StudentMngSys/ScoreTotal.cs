@@ -62,7 +62,7 @@ namespace TJWForms
             // 类型
             param.ExamTypeID = 1;
             // 考试批次
-            param.CourseID = this.comboBox_Course.SelectedIndex + 1; ;
+            param.CourseID = this.comboBox_Course.SelectedIndex + 1;
             // 科目
             int courseNewID = 1;
             if (param.ExamTypeID == 1)
@@ -496,7 +496,7 @@ namespace TJWForms
             columns[this._scoreDataSet.ScoreTable.TypeIDColumn.ColumnName].DisplayIndex = index++;
 
             columns[this._scoreDataSet.ScoreTable.TypeNameColumn.ColumnName].HeaderText = "考试类型";
-            columns[this._scoreDataSet.ScoreTable.TypeNameColumn.ColumnName].Visible = true;
+            columns[this._scoreDataSet.ScoreTable.TypeNameColumn.ColumnName].Visible = false;
             columns[this._scoreDataSet.ScoreTable.TypeNameColumn.ColumnName].DisplayIndex = index++;
 
             columns[this._scoreDataSet.ScoreTable.CourseNewNameColumn.ColumnName].HeaderText = "科目";
@@ -775,10 +775,6 @@ namespace TJWForms
         {
             ScoreTotalChart chart = new ScoreTotalChart();
             chart.ShowDialog();
-        }
-
-        private void ScoreTotal_FormClosed(object sender, FormClosedEventArgs e)
-        {
         }
     }
 }

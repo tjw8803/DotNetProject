@@ -97,7 +97,7 @@ namespace TJWForms
             TreeNode node2 = new TreeNode();
             node2.Text = "学生设定";
             TreeNode node3 = new TreeNode();
-            node3.Text = "章节设定"; 
+            node3.Text = "※已停用"; 
             TreeNode node4 = new TreeNode();
             node4.Text = "学年设定";
             //一级加入根
@@ -129,8 +129,12 @@ namespace TJWForms
             }
             else
             {
-                TabPageComp comp = new TabPageComp(node.Index);
-                AddTabControl(node, this.tabControl2, comp);
+                // 章节设定删除
+                if (node.Index != 2)
+                {
+                    TabPageComp comp = new TabPageComp(node.Index);
+                    AddTabControl(node, this.tabControl2, comp);
+                }
             }	 
         }
 
@@ -195,8 +199,10 @@ namespace TJWForms
             chart.Show();
         }
 
-        private void StudentMngSys_FormClosed(object sender, FormClosedEventArgs e)
+        private void btn_Total2_Click(object sender, EventArgs e)
         {
+            ScoreTotal2 total = new ScoreTotal2();
+            total.Show();
         }
     }
 }

@@ -267,8 +267,8 @@ namespace TJWForms
                         }
                     }
 
-                    // 按章节排序
-                    _scoreInfoList.OrderBy(work => work.CourseID);
+                    // 按考试批次排序
+                    _scoreInfoList = _scoreInfoList.OrderBy(work => work.CourseID).ToList();
                 }
                 else if (this.comboBox_TotalType.SelectedIndex == 3)
                 {
@@ -309,8 +309,8 @@ namespace TJWForms
                         }
                     }
 
-                    // 按章节排序
-                    _scoreInfoList.OrderBy(work => work.StuID);
+                    // 按学号排序
+                    _scoreInfoList = _scoreInfoList.OrderBy(work => work.StuID).ToList();
                 }
 
                 if (this.comboBox_TotalType.SelectedIndex == 2)
@@ -376,12 +376,12 @@ namespace TJWForms
                                 newWork.TestAgain = 0;
                                 newWork.ExamDate = DateTime.MinValue;
 
-                                _scoreInfoList.Add(newWork);
+                                _stuScoreInfoList.Add(newWork);
                             }
                         }
 
-                        // 按章节排序
-                        _stuScoreInfoList.OrderBy(work => work.CourseID);
+                        // 按考试批次排序
+                        _stuScoreInfoList = _stuScoreInfoList.OrderBy(work => work.CourseID).ToList();
                     }
                 }
             }

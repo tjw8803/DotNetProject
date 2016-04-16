@@ -54,7 +54,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(239, 15);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Build by tianjw on 2016/04/10";
+            this.label2.Text = "Build by tianjw on 2016/04/16";
             // 
             // pictureBox1
             // 
@@ -88,7 +88,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(63, 15);
             this.label3.TabIndex = 0;
-            this.label3.Text = "Ver 5.0";
+            this.label3.Text = "Ver 6.0";
             // 
             // AboutForm
             // 

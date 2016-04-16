@@ -70,6 +70,7 @@ namespace TJWForms
                 param.SearchScoreByStuID = true;
                 param.ClassID = _classID;
                 param.ExamTypeID = _examType;
+                param.CourseNewID = _courseNewID;
                 param.CourseID = _courseID;
                 param.ExamDate = _examDate;
                 List<DataWork> stuInfoList = null;

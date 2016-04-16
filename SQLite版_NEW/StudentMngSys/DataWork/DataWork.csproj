@@ -42,10 +42,18 @@
     <Compile Include="DataWork.cs" />
     <Compile Include="DataWorkForExcel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScoreDateSet.cs">
+      <DependentUpon>ScoreDateSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ScoreDateSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ScoreDateSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ScoreDateSet2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScoreDateSet2.xsd</DependentUpon>
     </Compile>
     <Compile Include="UserSetting.cs" />
   </ItemGroup>
@@ -60,6 +68,17 @@
     </None>
     <None Include="ScoreDateSet.xss">
       <DependentUpon>ScoreDateSet.xsd</DependentUpon>
+    </None>
+    <None Include="ScoreDateSet2.xsc">
+      <DependentUpon>ScoreDateSet2.xsd</DependentUpon>
+    </None>
+    <None Include="ScoreDateSet2.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ScoreDateSet2.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="ScoreDateSet2.xss">
+      <DependentUpon>ScoreDateSet2.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
