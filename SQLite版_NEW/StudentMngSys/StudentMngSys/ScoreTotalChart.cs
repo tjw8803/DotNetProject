@@ -20,6 +20,7 @@ namespace TJWForms
         private List<DataWork> _stuScoreInfoList = null;
         private DataWork _param;
         private List<DataWork> _examTypeInfoList;
+        private List<DataWork> _stuInfoList;
 
         public ScoreTotalChart()
         {
@@ -229,6 +230,7 @@ namespace TJWForms
                     _param.SearchDateTimeSt = termList[0].TermDateSt;
                     _param.SearchDateTimeEd = termList[0].TermDateEd;
                 }
+                _param.SearchMode = 1;
             }
 
             // 平均分查询
@@ -293,7 +295,45 @@ namespace TJWForms
                 }
                 else if (this.comboBox_TotalType.SelectedIndex == 3)
                 {
-                    _scoreInfoList = list;
+                    // 平均分->Dictionary
+                    Dictionary<string, DataWork> avgScoreDic = new Dictionary<string, DataWork>();
+                    foreach (DataWork avgScoreWork in list)
+                    {
+                        string key = avgScoreWork.ClassID + "-" + avgScoreWork.StuID;
+                        if (!avgScoreDic.ContainsKey(key))
+                        {
+                            avgScoreDic.Add(key, avgScoreWork);
+                        }
+                    }
+
+                    foreach (DataWork stuInfo in _stuInfoList)
+                    {
+                        string key = stuInfo.ClassID + "-" + stuInfo.StuID;
+                        if (avgScoreDic.ContainsKey(key))
+                        {
+                            _scoreInfoList.Add(avgScoreDic[key]);
+                        }
+                        else
+                        {
+                            DataWork newWork = new DataWork();
+                            newWork.ClassID = _param.ClassID;
+                            newWork.ClassName = _param.ClassName;
+                            newWork.ExamTypeID = _param.ExamTypeID;
+                            newWork.StuID = stuInfo.StuID;
+                            newWork.StuName = stuInfo.StuName;
+                            newWork.Average = 0;
+                            newWork.Up90Cnt = 0;
+                            newWork.Between8090Cnt = 0;
+                            newWork.Between7080Cnt = 0;
+                            newWork.Between6070Cnt = 0;
+                            newWork.Down60Cnt = 0;
+
+                            _scoreInfoList.Add(newWork);
+                        }
+                    }
+
+                    // 按章节排序
+                    _scoreInfoList.OrderBy(work => work.StuID);
                 }
 
                 if (this.comboBox_TotalType.SelectedIndex == 2)
@@ -383,7 +423,9 @@ namespace TJWForms
                 }
                 else if (this.comboBox_TotalType.SelectedIndex == 3)
                 {
+                    chart.TitleContent = this.comboBox_AcademicYear.SelectedItem + "/" + this.comboBox_Term.SelectedItem;
                     AddTabControl(_param, this.tabControl_TermTotal, chart);
+
                 }
                 this.TopMost = true;
                 this.Activate();
@@ -410,6 +452,10 @@ namespace TJWForms
                     case 2:
                         pageName = "tabPage" + work.ClassID + work.ExamTypeID + work.CourseNewID + work.CourseID + work.StuID;
                         pageText = work.ClassName + "/" + work.CourseNewName + "/" + work.StuName;
+                        break;
+                    case 3:
+                        pageName = "tabPage" + work.ClassID + work.ExamTypeID + work.CourseNewID + this.comboBox_AcademicYear.SelectedIndex + this.comboBox_Term.SelectedIndex;
+                        pageText = work.ClassName + "/" + work.CourseNewName;
                         break;
                 }
                 if (ErgodicModiForm(pageName, objTabControl))
@@ -504,12 +550,12 @@ namespace TJWForms
             // 班级
             ListItem liClass = (ListItem)this.comboBox_Class.SelectedItem;
             param.ClassID = liClass.Key;
-            List<DataWork> stuInfoList = null;
-            int status = _dataAccess.GetStuInfo(param, out stuInfoList, out errMsg);
+            _stuInfoList = null;
+            int status = _dataAccess.GetStuInfo(param, out _stuInfoList, out errMsg);
 
-            if (status == 0 && stuInfoList.Count > 0)
+            if (status == 0 && _stuInfoList.Count > 0)
             {
-                foreach (DataWork stuInfo in stuInfoList)
+                foreach (DataWork stuInfo in _stuInfoList)
                 {
                     this.comboBox_Student.Items.Add(new ListItem(stuInfo.StuID, stuInfo.StuName));
                 }

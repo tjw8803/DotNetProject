@@ -891,10 +891,19 @@ namespace TJWCommon
                     "SUB.classID " + Environment.NewLine +
                     ",CLS.className " + Environment.NewLine +
                     ",SUB.typeID " + Environment.NewLine +
-                    ",SUB.courseID " + Environment.NewLine +
-                    ",SUB.courseDetailID " + Environment.NewLine +
-                    ",EXAM.courseDetailName " + Environment.NewLine +
-                    ",SUB.AvgScore " + Environment.NewLine +
+                    ",SUB.courseID " + Environment.NewLine;
+
+                if (param.SearchMode == 0)
+                {
+                    sqlText += ",SUB.courseDetailID " + Environment.NewLine +
+                    ",EXAM.courseDetailName " + Environment.NewLine;
+                }
+                else
+                {
+                    sqlText += ",SUB.stuID " + Environment.NewLine;
+                    sqlText += ",STU.stuName " + Environment.NewLine;
+                }
+                    sqlText += ",SUB.AvgScore " + Environment.NewLine +
                     ",SUB.Up90 " + Environment.NewLine +
                     ",SUB.Btw8090 " + Environment.NewLine +
                     ",SUB.Btw7080 " + Environment.NewLine +
@@ -904,9 +913,18 @@ namespace TJWCommon
                     "SELECT " + Environment.NewLine +
                     "SCO.classID " + Environment.NewLine +
                     ",SCO.typeID " + Environment.NewLine +
-                    ",SCO.courseID " + Environment.NewLine +
-                    ",SCO.courseDetailID " + Environment.NewLine +
-                    ",AVG(SCO.score) AS AvgScore " + Environment.NewLine +
+                    ",SCO.courseID " + Environment.NewLine;
+
+                if (param.SearchMode == 0)
+                {
+                    sqlText += ",SCO.courseDetailID " + Environment.NewLine;
+                }
+                else
+                {
+                    sqlText += ",SCO.stuID " + Environment.NewLine;
+                }
+
+                sqlText += ",AVG(SCO.score) AS AvgScore " + Environment.NewLine +
                     ",SUM(CASE WHEN SCO.score>=90 THEN 1 ELSE 0 END) AS Up90 " + Environment.NewLine +
                     ",SUM(CASE WHEN SCO.score>=80 AND SCO.score<90 THEN 1 ELSE 0 END) AS Btw8090 " + Environment.NewLine +
                     ",SUM(CASE WHEN SCO.score>=70 AND SCO.score<80 THEN 1 ELSE 0 END) AS Btw7080 " + Environment.NewLine +
@@ -926,11 +944,30 @@ namespace TJWCommon
                     paraList.Add(new SQLiteParameter("@EXAMDATEED", SqlOperation.SetYYYYMMDDFromDateTime(param.SearchDateTimeEd)));
                 }
 
-                sqlText += "GROUP BY SCO.classID,SCO.typeID,SCO.courseID,SCO.courseDetailID " + Environment.NewLine +
-                ") AS SUB " + Environment.NewLine +
-                "LEFT JOIN tb_Class AS CLS ON CLS.classID = SUB.classID " + Environment.NewLine +
-                "LEFT JOIN tb_CourseDetail AS EXAM ON EXAM.typeID = SUB.typeID AND EXAM.courseID = SUB.courseID AND EXAM.courseDetailID = SUB.courseDetailID " + Environment.NewLine +
-                "WHERE 1=1 ";
+                sqlText += "GROUP BY SCO.classID,SCO.typeID,SCO.courseID " + Environment.NewLine;
+
+                    if (param.SearchMode == 0)
+                    {
+                        sqlText += ",SCO.courseDetailID " + Environment.NewLine;
+                    }
+                    else
+                    { 
+                        sqlText += ",SCO.stuID " + Environment.NewLine; 
+                    }
+
+
+                    sqlText += ") AS SUB " + Environment.NewLine +
+                "LEFT JOIN tb_Class AS CLS ON CLS.classID = SUB.classID " + Environment.NewLine;
+                    if (param.SearchMode == 0)
+                    {
+                        sqlText += "LEFT JOIN tb_CourseDetail AS EXAM ON EXAM.typeID = SUB.typeID AND EXAM.courseID = SUB.courseID AND EXAM.courseDetailID = SUB.courseDetailID " + Environment.NewLine;
+                    }
+                    else
+                    {
+                        sqlText += "LEFT JOIN tb_Student AS STU ON STU.classID=SUB.classID AND STU.stuID=SUB.stuID " + Environment.NewLine;
+                    }
+
+                   sqlText +=  "WHERE 1=1 ";
 
                 if (!string.IsNullOrEmpty(param.ClassID) && !param.ClassID.Equals("0"))
                 {
@@ -955,7 +992,15 @@ namespace TJWCommon
 
                 para = paraList.ToArray();
 
-                sqlText += "ORDER BY SUB.classID, SUB.typeID, SUB.courseID, EXAM.courseDetailName";
+                sqlText += "ORDER BY SUB.classID, SUB.typeID, SUB.courseID";
+                if (param.SearchMode == 0)
+                {
+                    sqlText += ", EXAM.courseDetailName";
+                }
+                else
+                {
+                    sqlText += ", SUB.stuID";
+                }
 
                 myReader = SQLiteHelper.ExecuteReader(command, sqlText, para);
 
@@ -966,8 +1011,16 @@ namespace TJWCommon
                     stuInfo.ClassName = SqlOperation.GetString(myReader, myReader.GetOrdinal("className"));
                     stuInfo.ExamTypeID = SqlOperation.GetInt32(myReader, myReader.GetOrdinal("typeID"));
                     stuInfo.CourseNewID = SqlOperation.GetInt32(myReader, myReader.GetOrdinal("courseID"));
-                    stuInfo.CourseID = SqlOperation.GetInt32(myReader, myReader.GetOrdinal("courseDetailID"));
-                    stuInfo.CourseName = SqlOperation.GetString(myReader, myReader.GetOrdinal("courseDetailName"));
+                    if (param.SearchMode == 0)
+                    {
+                        stuInfo.CourseID = SqlOperation.GetInt32(myReader, myReader.GetOrdinal("courseDetailID"));
+                        stuInfo.CourseName = SqlOperation.GetString(myReader, myReader.GetOrdinal("courseDetailName"));
+                    }
+                    else
+                    {
+                        stuInfo.StuID = SqlOperation.GetString(myReader, myReader.GetOrdinal("stuID"));
+                        stuInfo.StuName = SqlOperation.GetString(myReader, myReader.GetOrdinal("stuName"));
+                    }
                     stuInfo.Average = Math.Round(SqlOperation.GetDouble(myReader, myReader.GetOrdinal("AvgScore")), 2, MidpointRounding.AwayFromZero);
                     stuInfo.Up90Cnt = (Int32)SqlOperation.GetDouble(myReader, myReader.GetOrdinal("Up90"));
                     stuInfo.Between8090Cnt = (Int32)SqlOperation.GetDouble(myReader, myReader.GetOrdinal("Btw8090"));

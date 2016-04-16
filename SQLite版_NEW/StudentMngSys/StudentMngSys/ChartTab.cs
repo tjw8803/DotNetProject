@@ -18,6 +18,7 @@ namespace TJWForms
         private List<DataWork4Chart> _chartList;
         private double _average;
         private int _mode;
+        public String TitleContent { set; get; }
 
         public ChartTab(int mode, List<DataWork> list, List<DataWork> list2)
         {
@@ -67,7 +68,7 @@ namespace TJWForms
             }
             else if (_mode == 1)
             {
-                CreateLineChart(_list);
+                CreateLineChart(_list, 0);
             }
             else if (_mode == 2)
             {
@@ -75,7 +76,7 @@ namespace TJWForms
             }
             else if (_mode == 3)
             {
-                CreateLineChart(_list);
+                CreateLineChart(_list, 1);
             }
         }
 
@@ -155,7 +156,7 @@ namespace TJWForms
             this.chart1.Titles[1].ShadowOffset = 3;
         }
 
-        private void CreateLineChart(List<DataWork> list)
+        private void CreateLineChart(List<DataWork> list, int mode)
         {
             this.chart1.Series.Clear();
             this.chart1.Legends.Clear();
@@ -179,6 +180,10 @@ namespace TJWForms
             Title title = new Title();
             //标题内容
             title.Text = "学生成绩";
+            if (!string.IsNullOrEmpty(TitleContent))
+            {
+                title.Text += string.Format("({0})", TitleContent); ;
+            }
             //标题的字体
             title.Font = new System.Drawing.Font("Arial Unicode MS", 11, FontStyle.Bold);
             //标题字体颜色
@@ -253,7 +258,14 @@ namespace TJWForms
 
             foreach (DataWork work in list)
             {
-                chart1.Series["scoreAvg"].Points.AddXY(work.CourseName, work.Average.ToString("0.00"));
+                if (mode == 0)
+                {
+                    chart1.Series["scoreAvg"].Points.AddXY(work.CourseName, work.Average.ToString("0.00"));
+                }
+                else
+                {
+                    chart1.Series["scoreAvg"].Points.AddXY(work.StuName, work.Average.ToString("0.00"));
+                }
             }
         }
 
